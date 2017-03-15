@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Friend Alert | Main</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+        <link rel="stylesheet" href="styles/main.css">
+        <meta name="description" content="Main page for Friend Alert">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <header>
+            <ul>
+                <li>User</li>
+                <li>Contacts</li>
+                <li>Alarm</li>
+            </ul>
+        </header>
+
+        <main class="index-main">
+            <section class="clock-container">
+                <h2>Set timer</h2>
+                <h3>Your contacts will be notified when timer expire</h3>
+                <form class='clock-form'>
+                    <div class="clock">
+                        <input class="hour" type="number" min="0" max="24" placeholder="00">
+                        <div class="clock-text">Hours</div>
+                    </div>
+                    <div class="clock">
+                        <input class="min" type="number" min="0" max="59" placeholder="00">
+                        <div class="clock-text">Minutes</div>
+                    </div>
+                    <h3>Email message</h3>
+                    <textarea class="email message" rows="8" cols="50">
+                    </textarea>
+                    <button id="alarm-button" class="clock button" type="submit"><span class="button-on-off">Off</span></button>
+                </form>
+            </section>
+        </main>
+
+        <script src="scripts/jquery-3.1.1.min.js"></script>
+        <script src="scripts/app.js"></script>
+    </body>
+</html>
