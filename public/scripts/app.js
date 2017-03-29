@@ -1,6 +1,8 @@
 let STATE = {
     userEmail: '',
     userPassword: '',
+    userName: '',
+    userPhone: 0
 };
 
 //************* AJAX *******************/
@@ -8,66 +10,98 @@ let STATE = {
 // GET active user
 function getAJAX(url){
 
-    let respond;
-
-    $.getJSON(url, function(res){
-        if(res.length === 1){
-            if(STATE.userPassword !== res[0].password)
-                return alert('invalid password');
-            respond = res;
-            console.log(respond);
-            return alert('success get AJAX');
+    $.ajax({
+        url: url,
+        dataType: 'json',
+        success: function(data){
+            if(data.length === 1){
+                if(STATE.userPassword !== data[0].password)
+                    return alert('invalid password');
+                console.log(data);
+                // navigate to main page
+                return window.location.href = "index.html";
+            }
+            return alert('invalid email');
+        },
+        error: function(err){
+            alert(err);
         }
-        return alert('invalid email');
     });
-
-    /*fetch(url, {method: 'get'})
-    .then(function(res) {
-        console.log(res);
-    })
-    .catch(function(err) {
-        console.error(err);
-    });*/
 
 }; // end getAJAX
 
 // POST new user
 function postAJAX(){
-    alert(STATE.userEmail + ' ' + STATE.userPassword);
     $.ajax({
         url: 'http://localhost:8080/user/',
-        data: {email: STATE.userEmail, password: STATE.userPassword},
+        data: JSON.stringify({
+            'email': STATE.userEmail,
+            'password': STATE.userPassword,
+            'name': STATE.userName,
+            'phone': STATE.userPhone
+        }),
         type: 'POST',
+        contentType: 'application/json',
         dataType: 'json',
-        success: function(){
+        success: function(data){
+            console.log(data);
             alert('client side POST Success');
         },
         error: function(err){
-            console.log(err);
-            alert('client side POST error');
+            alert(err.responseText);
         }
     });
+
 };
 
 //********** Sign-in Page **************/
 
-//********* Sign-in
-function validateSignIn(email) {
-    let url = `http://localhost:8080/user/${email}`;
-    getAJAX(url);
-};
+//require email and password
+function validateInput(){
+    if($('.email').val() === ''){
+        alert('missing email');
+        return false;
+    }
+    if($('.password').val() === ''){
+        alert('missing password');
+        return false;
+    }
+    return true;
+}
 
-$('.sign-in-form').on('submit', (event) => {
+//********* Sign-in
+
+$('.sign-in-button').on('click', (event) => {
     event.preventDefault();
-    STATE.userEmail = $('.email').val();
-    STATE.userPassword = $('.password').val();
-    validateSignIn(STATE.userEmail);
+    if(validateInput()) {
+        STATE.userEmail = $('.email').val();
+        STATE.userPassword = $('.password').val();
+        let url = `http://localhost:8080/user/${STATE.userEmail}`;
+        getAJAX(url);
+    }
 });
 
 //********** Create new user
 
-$('.create-account').on('click', () => {
-    STATE.userEmail = $('.email').val();
-    STATE.userPassword = $('.password').val();
-    postAJAX();
+$('.create-account-button').on('click', (event) => {
+    event.preventDefault();
+    if(validateInput()) {
+        STATE.userEmail = $('.email').val();
+        STATE.userPassword = $('.password').val();
+        STATE.userName = $('.name').val();
+        STATE.userPhone = $('.phone').val();
+        postAJAX();
+    }
+});
+
+//************ toggle sign-in and create account
+$('.toggle').on('click', () => {
+    const form = $('form');
+    form.children('.email').toggleClass('border');
+    form.children('.password').toggleClass('border');
+    form.children('.name').slideToggle();
+    form.children('.phone').slideToggle();
+    form.children('button').toggleClass('hidden');
+    form.siblings().text() === 'Create an account' ?
+        form.siblings().text('Sign in') : form.siblings().text('Create an account'); 
 });

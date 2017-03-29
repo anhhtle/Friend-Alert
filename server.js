@@ -15,6 +15,7 @@ require('dotenv').config();
 const app = express();
 app.use(morgan('common'));
 app.use(bodyParser.json());
+app.use('/static', express.static('public'));
 mongoose.Promise = global.Promise;
 
 // ******************* API ************************
@@ -41,7 +42,7 @@ app.get('/user/:email', (req, res) => {
     .exec()
     .then(user => {
       console.log(user);
-      res.status(200).json(user);
+      return res.json(user);
     })
     .catch(err => {
       console.error(err);
@@ -52,6 +53,7 @@ app.get('/user/:email', (req, res) => {
 // POST new user
 app.post('/user', (req, res) => {
   // check for required fields
+  console.log(req.body);
   const requiredFields = ['email', 'password'];
   for(let i = 0; i < requiredFields.length; i++){
     const field = requiredFields[i];
@@ -70,7 +72,7 @@ app.post('/user', (req, res) => {
     .then(count => {
       if(count > 0){
         console.log('email is already registered');
-        return res.status(422).json({message:'email is already registered'});
+        return res.status(422).send('email is already registered');
       }
       // create new user
       const newUser = {
@@ -216,6 +218,6 @@ if (require.main === module) {
   runServer().catch(err => console.error(err));
 };
 // start cronjob after server starts
-job.start();
+//job.start();
 
 module.exports = {app, runServer, closeServer};

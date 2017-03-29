@@ -15,11 +15,14 @@
 
         <section class="sign-in-container">
             <form class="sign-in-form">
-                <input class="sign-in email" type="email" placeholder="Email">
-                <input class="sign-in password" type="password" placeholder="Password">
-                <button class="sign-in button" type="submit">Sign In</button>
+                <input class="sign-in email" type="email" placeholder="Email" required>
+                <input class="sign-in password" type="password" placeholder="Password" required>
+                <input class="sign-in name hidden" type="text" placeholder="John Doe">
+                <input class="sign-in phone hidden" type="tel" placeholder="Numbers only">
+                <button class="sign-in-button" type="submit">Sign in</button>
+                <button class="create-account-button hidden" type="submit">Create account</button>
             </form>
-            <p class="create-account">Create an account</p>
+            <p class="toggle">Create an account</p>
         </section>
         
         <script src="scripts/jquery-3.1.1.min.js"></script>

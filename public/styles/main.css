@@ -19,7 +19,7 @@ header {
     padding-top: 20px;
     margin-bottom: 50px;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     background-color: #985F99;
 }
 
@@ -33,10 +33,18 @@ ul {
 li {
     float: right;
     display: block;
-    width: 80px;
+    width: 100px;
+    height: 35px;
+    line-height: 35px;
     text-align: center;
     color: #B6C9BB;
 }
+
+li:hover:not(.active) {
+    background-color: #9684A1;
+    cursor: pointer;
+}
+
 
 /*********************** Body ***************************/
 
@@ -67,6 +75,7 @@ input[type='number'] {
 }
 
 textarea {
+    padding: 10px;
     margin-bottom: 20px;
     background-color: #985F99;
 }
@@ -81,5 +90,10 @@ textarea {
 
 .hidden {
     display: none;
+}
+
+.active {
+    background-color: #B6C9BB;
+    color: #985F99;
 }
 
