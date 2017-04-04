@@ -11,6 +11,13 @@ body {
     background-color: #B6C9BB;
 }
 
+main {
+    width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    color: #985F99;
+}
+
 /******************** Navigation *******************/
 
 header {
@@ -46,14 +53,8 @@ li:hover:not(.active) {
 }
 
 
-/*********************** Body ***************************/
+/*********************** Alarm ***************************/
 
-main {
-    width: 1000px;
-    margin: 0 auto;
-    text-align: center;
-    color: #985F99;
-}
 
 .clock {
     display: inline-block;
@@ -85,6 +86,64 @@ textarea {
     margin: 0 auto;
     background-color: lightcoral;
 }
+
+
+/************************ Contacts ************************/
+
+.contact-form {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #AAACB0;
+    margin-bottom: 30px;
+}
+
+.contact-input {
+    display: block;
+    margin: 0 auto 5px;
+    padding-left: 5px;
+    height: 40px;
+    width: 350px;
+}
+
+.contact-button {
+    width: 150px;
+    height: 30px;
+}
+
+.contacts-results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.contact-card {
+    margin: 0 auto 30px;
+    min-width: 30%;
+    padding: 10px;
+    background-color: #985F99;
+    color: #B6C9BB;
+}
+
+/************************ Account ************************/
+
+.account-input {
+    display: block;
+    margin: 0 auto 5px;
+    padding-left: 5px;
+    height: 40px;
+    width: 350px;
+}
+
+label {
+    font-size: 15px;
+}
+
+.account-button {
+    display: block;
+    margin: 30px auto;
+    width: 150px;
+    height: 30px;
+}
+
 
 /********************* visual/animation *******************/
 

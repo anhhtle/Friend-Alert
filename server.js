@@ -80,10 +80,10 @@ app.post('/user', (req, res) => {
         password: req.body.password,
         name: req.body.name || '',
         phone: req.body.phone || 0,
-        contact: [],
+        contacts: [],
         community: false,
-        startTime: '',
-        alarmTime: '',
+        startTime: 0,
+        alarmTime: 0,
         alertOn: false
       };
       return User.create(newUser);
@@ -120,7 +120,7 @@ app.delete('/user/:email', (req, res) => {
 // UPDATE a user
 app.put('/user/:email', (req, res) => {
   let updateUser = {};
-  const updateableFields = ['email', 'password', 'name', 'phone', 'community'];
+  const updateableFields = ['email', 'password', 'name', 'phone', 'community', 'startTime', 'alarmTime', 'alertOn', 'contacts'];
   updateableFields.forEach(field => {
     if(field in req.body){
       updateUser[field] = req.body[field];
@@ -135,41 +135,98 @@ app.put('/user/:email', (req, res) => {
   
 }) // end UPDATE user
 
+// verify contact
+// app.get('/user/:email/:contact', (req, res) => {
+//   console.log(req.params.contact);
+//   let arr = [];
+
+//   // find user's contact
+//   User
+//   .findOne({email: req.params.email})
+//   .exec()
+//   .then((user) => {
+//     arr = user.contacts;
+//     for(let i = 0; i <= query.length; i++){
+//       if(arr[i].email === req.params.contact){
+//         arr[i].verified = true;
+//       } 
+//     }
+//   });
+
+//   console.log(arr);
+//   let query = {contacts: arr};
+
+//   // update contact's verify status
+//   User
+//   .findOneAndUpdate({email: req.params.email}, {$set: query}, {new: true})
+//   .exec()
+//   .then(updated => res.status(201).json(updated))
+//   .catch(err => res.status(500).json({message: 'something went wrong'}));
+
+// })
+
+// Set timer
+app.put('/user/time/:email', (req, res) => {
+  let startTime = Date.parse(new Date());
+  startTime = Math.floor(startTime / 1000 / 60); 
+
+  let alarmTime = new Date(Date.parse(new Date()) + (req.body.hour * 60 * 60 * 1000) + (req.body.min * 60 * 1000));
+  alarmTime = Math.floor(alarmTime / 1000 / 60);
+
+  if(req.body.hour === 0 && req.body.min === 0){
+    startTime = 0;
+    alarmTime = 0;
+  }
+
+  let query = {'startTime': startTime, 'alarmTime': alarmTime};
+
+  User
+  .findOneAndUpdate({email: req.params.email}, {$set: query}, {new: true})
+  .exec()
+  .then(updated => res.status(201).json(updated))
+  .catch(err => res.status(500).json({message: 'something went wrong'}));
+});
+
+
 // catch all
 app.get('*', (req, res) => {
   res.json({message: 'not found'});
 }); // end catch all
 
 
-//******************** email ************************
-
-const emailData = {
-    from: process.env.ALERT_FROM_EMAIL,
-    to: process.env.ALERT_TO_EMAIL,
-    subject: process.env.ALERT_FROM_NAME + `: testing subject`,
-    text: "Plain text content",
-    html: `testing html`
-};
-
-app.get('/send-email', (req, res) => {
-  sendEmail(emailData);
-  res.json({message: process.env.ALERT_FROM_EMAIL});
-});
-
 //**************** timer *************************
-
-let alarmTime = moment().add(2, 'm').format('h:mm');
 
 //**************** cron job ***********************
 // pattern *(min) *(hr) *(d) *(m) *(d of w)
 
 const job = new cronJob('*/1 * * * *', () => {
-  const currentTime = moment().format('h:mm');
+  //const currentTime = moment().format('HH:mm');
+  let currentTime = Date.parse(new Date());
+  currentTime = Math.floor(currentTime / 1000 / 60);
   console.log(`now: ${currentTime}`);
-  console.log(`alarm: ${alarmTime}`);
-  /*if(currentTime === alarmTime){
-    sendEmail(emailData);
-  }*/
+
+  User
+    .find({'alarmTime': {'$exists': true, '$ne': 0}})
+    .exec()
+    .then(users => {
+      console.log(users);
+      users.forEach((user) => {
+        if(currentTime === user.alarmTime){
+          let emailData = {
+            from: process.env.ALERT_FROM_EMAIL,
+            to: process.env.ALERT_TO_EMAIL,
+            subject: user.email + `: alarmTime is ${user.alarmTime}`,
+            text: "Plain text content",
+            html: `testing html`
+          };
+          sendEmail(emailData);
+          console.log(`send email for user ${user.email}`);
+        } // end if
+      }); // end forEach
+    })
+    .catch(err => {
+      console.error(err);
+    });
 });
 
 
@@ -218,6 +275,6 @@ if (require.main === module) {
   runServer().catch(err => console.error(err));
 };
 // start cronjob after server starts
-//job.start();
+job.start();
 
 module.exports = {app, runServer, closeServer};

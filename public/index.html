@@ -10,14 +10,16 @@
     <body>
         <header>
             <ul>
-                <li>User</li>
-                <li>Contacts</li>
-                <li class="active">Alarm</li>
+                <li id="account-container">User</li>
+                <li id="contact-container">Contacts</li>
+                <li id="alarm-container" class="active">Alarm</li>
             </ul>
         </header>
 
-        <main class="index-main">
-            <section class="clock-container">
+        <main>
+<!--********************** Alarm-clock  **************************-->
+
+            <section class="alarm-container">
                 <h2>Set timer</h2>
                 <h3>Your contacts will be notified when timer expire</h3>
                 <form class='clock-form'>
@@ -31,12 +33,43 @@
                     </div>
                     <h3>Email message</h3>
                     <textarea class="email message" rows="8" cols="50"></textarea>
-                    <button id="alarm-button" class="clock button" type="submit"><span class="button-on-off">Off</span></button>
+                    <button id="alarm-on-button" class="clock button" type="submit">Turn on alarm</button>
+                    <button id="alarm-off-button" class="clock button hidden">Turn off alarm</button>
                 </form>
             </section>
+
+<!--********************** Contact Management  **************************-->
+
+            <section class="contact-container hidden">
+                <h2>Manage your contacts</h2>
+                <form class="contact-form">
+                    <input id="contact-name" class="contact-input" type="text" placeholder="Name" required>
+                    <input id="contact-email" class="contact-input" type="email" placeholder="Email" required>
+                    <button class="contact-button" type="submit">Create</button>
+                </form>
+
+                <section class="contacts-results"></section>
+
+            </section>
+
+<!--*********************** Manage account *******************************-->
+
+            <section class="account-container hidden">
+                <h2>Manage your account</h2>
+                <form action="account-form">
+                    <input id="account-email" class="account-input" type="text" placeholder="Email">
+                    <input id="account-password" class="account-input" type="password" placeholder="Password">
+                    <input id="account-name" class="account-input" type="text" placeholder="Name">
+                    <h3>Join 'community' to send and receive alarms from other Friends-Alert members.</h3>
+                    <input id="account-community" type="checkbox">
+                    <label><strong>Community</strong></label>
+                    <button class="account-button" type="submit">Save</button>
+                </form>
+            </section>
+
         </main>
 
         <script src="scripts/jquery-3.1.1.min.js"></script>
-        <script src="scripts/app.js"></script>
+        <script src="scripts/index.js"></script>
     </body>
 </html>

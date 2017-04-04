@@ -5,15 +5,16 @@ const userSchema = mongoose.Schema({
     password: {type: String, require: true},
     name: {type: String},
     phone: {type: Number},
-    contact: [{
+    contacts: [{
         name: String,
-        email: String,
+        email: {type: String, unique: true},
         phone: Number,
+        verified: {type: Boolean, default: false},
         opt_out: {type: Boolean, default: false}
     }],
     community: {type: Boolean, default: false},
-    startTime: {type: String},
-    alarmTime: {type: String},
+    startTime: {type: Number},
+    alarmTime: {type: Number},
     alertOn: {type: Boolean, default: false}
 });
 

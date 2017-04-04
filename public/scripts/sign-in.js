@@ -19,6 +19,7 @@ function getAJAX(url){
                     return alert('invalid password');
                 console.log(data);
                 // navigate to main page
+                localStorage.setItem('email', STATE.userEmail);
                 return window.location.href = "index.html";
             }
             return alert('invalid email');
