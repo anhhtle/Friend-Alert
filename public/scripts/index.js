@@ -1,200 +1,107 @@
 let STATE = {
-    email: '',
-    password: '',
-    name: '',
-    phone: 0,
-    contacts: [{
-        name: '',
-        email: '',
-        phone: 0,
-        verified: false,
-        opt_out: false
-    }],
-    community: false,
-    startTime: 0,
-    alarmTime: 0,
-    alertOn: false
+    userEmail: '',
+    userPassword: '',
+    userName: '',
+    userPhone: 0
 };
 
-//********************* Navigation ***********************/
-$('li').on('click', function() {
-    $(this).addClass('active');
-    $(this).siblings().removeClass('active');
-    let id = $(this).attr('id');
-    $(`.${id}`).siblings().addClass('hidden');
-    $(`.${id}`).removeClass('hidden');
-});
-
-//*********************** API ******************************/
+//************* AJAX *******************/
 
 // GET active user
 function getAJAX(url){
+
     $.ajax({
         url: url,
         dataType: 'json',
         success: function(data){
-            STATE = data[0];
-            renderAlarm();
-            renderContacts();
-            renderAccount();
-            alert(`successful GET user ${STATE.email}`);
+            if(data.length === 1){
+                if(STATE.userPassword !== data[0].password)
+                    return alert('invalid password');
+                // navigate to main page
+                localStorage.setItem('email', STATE.userEmail);
+                return window.location.href = "main.html";
+            }
+            return alert('invalid email');
         },
         error: function(err){
             alert(err);
         }
     });
+
 }; // end getAJAX
 
-// PUT user
-function putAJAX(url, query){
+// POST new user
+function postAJAX(){
     $.ajax({
-        url: url,
-        data: JSON.stringify(query),
-        type: 'PUT',
+        url: 'http://localhost:8080/user/',
+        data: JSON.stringify({
+            'email': STATE.userEmail,
+            'password': STATE.userPassword,
+            'name': STATE.userName,
+            'phone': STATE.userPhone
+        }),
+        type: 'POST',
         contentType: 'application/json',
         dataType: 'json',
         success: function(data){
             console.log(data);
+            alert('client side POST Success');
         },
         error: function(err){
             alert(err.responseText);
         }
     });
+
 };
 
-//************************ Manage alarm **************************
+//********** Sign-in Page **************/
 
-function renderAlarm(){
-
-    let currentTime = Date.parse(new Date());
-    currentTime = Math.ceil(currentTime / 1000 / 60);
-
-    let time = STATE.alarmTime - currentTime;
-    let hour = Math.floor(time / 60);
-    let min = time % 60;
-
-    console.log(time);
-
-    if(time < 0){
-        hour = 0;
-        min = 0;
+//require email and password
+function validateInput(){
+    if($('.email').val() === ''){
+        alert('missing email');
+        return false;
     }
-
-    $('.hour').val(hour);
-    $('.min').val(min);
-
-    if(time > 0){
-        $('#alarm-on-button').addClass('hidden');
-        $('#alarm-off-button').removeClass('hidden');
+    if($('.password').val() === ''){
+        alert('missing password');
+        return false;
     }
-};
+    return true;
+}
 
+//********* Sign-in
 
-$('#alarm-on-button').on('click', function(event) {
+$('.sign-in-button').on('click', (event) => {
     event.preventDefault();
-    $(this).addClass('hidden');
-    $('#alarm-off-button').removeClass('hidden');
-    let hour = Number($('.hour').val());
-    let min = Number($('.min').val());
-    let query = {hour: hour, min: min};
-    let url = `http://localhost:8080/user/time/${localStorage.email}`;
-    putAJAX(url, query);
+    if(validateInput()) {
+        STATE.userEmail = $('.email').val();
+        STATE.userPassword = $('.password').val();
+        let url = `http://localhost:8080/user/${STATE.userEmail}`;
+        getAJAX(url);
+    }
 });
 
-$('#alarm-off-button').on('click', function(event) {
+//********** Create new user
+
+$('.create-account-button').on('click', (event) => {
     event.preventDefault();
-    $(this).toggleClass('hidden');
-    $('#alarm-on-button').removeClass('hidden');
-    $('.hour').val(0);
-    $('.min').val(0);
-    let query = {hour: 0, min: 0};
-    let url = `http://localhost:8080/user/time/${localStorage.email}`;
-    putAJAX(url, query);
-})
-
-//*********************** Manage Contacts **********************/
-function processContact(url){
-    let name = $('#contact-name').val();
-    let email = $('#contact-email').val();
-    // check if email already exists
-    let exists = false;
-    STATE.contacts.forEach((contact) => {
-        if(email === contact.email){
-            exists = true;
-            alert('email already registered');
-        }
-    });
-
-    // update DATEBASE with new contact
-    if(!exists){
-        let obj = {name: name, email: email, phone: 0, verified: false, opt_out: false};
-        STATE.contacts.push(obj);
-        let query = {contacts: STATE.contacts};
-        putAJAX(url, query);
+    if(validateInput()) {
+        STATE.userEmail = $('.email').val();
+        STATE.userPassword = $('.password').val();
+        STATE.userName = $('.name').val();
+        STATE.userPhone = $('.phone').val();
+        postAJAX();
     }
-};
-
-function renderContacts(){
-    let container = $('.contacts-results');
-    container.html('');
-    if(STATE.contacts.length === 0)
-        return;
-
-    STATE.contacts.map((contact, i) => {
-        let verified = 'verified';
-        if(contact.verified === false){
-            verified = 'Not verified';
-        }
-        var template = $(
-            `<div class="contact-card">
-                <h2>${contact.name}</h2>
-                <h3>${contact.email}</h3>
-                <h5></h5>
-                <button id="${i}" class="contact-delete">Delete</button>
-            </div>`
-        );
-        container.append(template);
-    });
-
-
-    // for(let i = 0; i < STATE.contacts.length; i++){
-    // } // end for loop
-};
-
-$('.contact-form').on('submit', (event) => {
-    event.preventDefault();
-    let url = `http://localhost:8080/user/${localStorage.email}`;
-    processContact(url);
-    renderContacts();
-})
-
-//delete contact
-$('.contacts-results').on('click', 'button', function(event) {
-    event.stopPropagation();
-    $(this).css('color', 'red');
 });
 
-//********************** Manage Account ************************/
-
-function renderAccount(){
-    $('#account-email').val(STATE.email);
-    $('#account-password').val(STATE.password);
-    $('#account-name').val(STATE.name);
-    if(STATE.community === false)
-        $('#account-community').prop('checked');
-};
-
-$('.account-form').on('submit', (event) => {
-    event.preventDefault();
-    let url = `http://localhost:8080/user/${localStorage.email}`
-    getAJAX(url);
-});
-
-//********************* run after DOM load ********************
-
-$(function() {
-    // check localStorage.email === null .... redirect to sign-in
-    let url = `http://localhost:8080/user/${localStorage.email}`;
-    getAJAX(url);
-    setInterval(renderAlarm, 60000);
+//************ toggle sign-in and create account
+$('.toggle').on('click', () => {
+    const form = $('form');
+    form.children('.email').toggleClass('border');
+    form.children('.password').toggleClass('border');
+    form.children('.name').slideToggle();
+    form.children('.phone').slideToggle();
+    form.children('button').toggleClass('hidden');
+    form.siblings().text() === 'Create an account' ?
+        form.siblings().text('Sign in') : form.siblings().text('Create an account'); 
 });

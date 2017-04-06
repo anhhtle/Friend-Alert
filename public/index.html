@@ -1,74 +1,31 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Friend Alert | Main</title>
+        <title>Emergency Contact | Sign-in</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-        <link rel="stylesheet" href="styles/main.css">
-        <meta name="description" content="Main page for Friend Alert">
+        <link rel="stylesheet" href="styles/index.css">
+        <meta name="description" content="sign-in page for Emergency Contact">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+
         <header>
-            <ul>
-                <li id="account-container">User</li>
-                <li id="contact-container">Contacts</li>
-                <li id="alarm-container" class="active">Alarm</li>
-            </ul>
+            <div>Placeholder header</div>
         </header>
 
-        <main>
-<!--********************** Alarm-clock  **************************-->
-
-            <section class="alarm-container">
-                <h2>Set timer</h2>
-                <h3>Your contacts will be notified when timer expire</h3>
-                <form class='clock-form'>
-                    <div class="clock">
-                        <input class="hour" type="number" min="0" max="24" placeholder="00">
-                        <div class="clock-text">Hours</div>
-                    </div>
-                    <div class="clock">
-                        <input class="min" type="number" min="0" max="59" placeholder="00">
-                        <div class="clock-text">Minutes</div>
-                    </div>
-                    <h3>Email message</h3>
-                    <textarea class="email message" rows="8" cols="50"></textarea>
-                    <button id="alarm-on-button" class="clock button" type="submit">Turn on alarm</button>
-                    <button id="alarm-off-button" class="clock button hidden">Turn off alarm</button>
-                </form>
-            </section>
-
-<!--********************** Contact Management  **************************-->
-
-            <section class="contact-container hidden">
-                <h2>Manage your contacts</h2>
-                <form class="contact-form">
-                    <input id="contact-name" class="contact-input" type="text" placeholder="Name" required>
-                    <input id="contact-email" class="contact-input" type="email" placeholder="Email" required>
-                    <button class="contact-button" type="submit">Create</button>
-                </form>
-
-                <section class="contacts-results"></section>
-
-            </section>
-
-<!--*********************** Manage account *******************************-->
-
-            <section class="account-container hidden">
-                <h2>Manage your account</h2>
-                <form action="account-form">
-                    <input id="account-email" class="account-input" type="text" placeholder="Email">
-                    <input id="account-password" class="account-input" type="password" placeholder="Password">
-                    <input id="account-name" class="account-input" type="text" placeholder="Name">
-                    <h3>Join 'community' to send and receive alarms from other Friends-Alert members.</h3>
-                    <input id="account-community" type="checkbox">
-                    <label><strong>Community</strong></label>
-                    <button class="account-button" type="submit">Save</button>
-                </form>
-            </section>
-
-        </main>
-
+        <section class="sign-in-container">
+            <div class="sign-in-message"></div>
+            <form class="sign-in-form">
+                <input class="sign-in email" type="email" placeholder="Email" required>
+                <input class="sign-in password" type="password" placeholder="Password" required>
+                <input class="sign-in name hidden" type="text" placeholder="John Doe">
+                <input class="sign-in phone hidden" type="tel" placeholder="Numbers only">
+                <button class="sign-in-button" type="submit">Sign in</button>
+                <button class="create-account-button hidden" type="submit">Create account</button>
+            </form>
+            <p class="toggle">Create an account</p>
+        </section>
+        
         <script src="scripts/jquery-3.1.1.min.js"></script>
         <script src="scripts/index.js"></script>
     </body>

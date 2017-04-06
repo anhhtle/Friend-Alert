@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Friend Alert | Main</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+        <link rel="stylesheet" href="styles/main.css">
+        <meta name="description" content="Main page for Friend Alert">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <header>
+            <ul>
+                <li id="account-container">Account</li>
+                <li id="contact-container">Contacts</li>
+                <li id="alarm-container" class="active">Alarm</li>
+            </ul>
+        </header>
+
+        <main>
+<!--********************** Alarm-clock  **************************-->
+
+            <section class="alarm-container">
+                <h2>Set timer</h2>
+                <h3>Your contacts will be notified when timer expire</h3>
+                <form class='clock-form'>
+                    <div class="clock">
+                        <input class="hour" type="number" min="0" max="24" placeholder="00">
+                        <div class="clock-text">Hours</div>
+                    </div>
+                    <div class="clock">
+                        <input class="min" type="number" min="0" max="59" placeholder="00">
+                        <div class="clock-text">Minutes</div>
+                    </div>
+                    <h3>Email message</h3>
+                    <textarea class="email message" rows="8" cols="50"></textarea>
+                    <button id="alarm-on-button" class="clock button" type="submit">Turn on alarm</button>
+                    <button id="alarm-off-button" class="clock button hidden">Turn off alarm</button>
+                </form>
+            </section>
+
+<!--********************** Contact Management  **************************-->
+
+            <section class="contact-container hidden">
+                <h2>Manage your contacts</h2>
+                <h3>A verification email will be sent to new contact</h3>
+                <form class="contact-form">
+                    <input id="contact-name" class="contact-input" type="text" placeholder="Name" required>
+                    <input id="contact-email" class="contact-input" type="email" placeholder="Email" required>
+                    <button class="contact-button" type="submit">Create</button>
+                </form>
+                <section class="contacts-results"></section>
+
+            </section>
+
+<!--*********************** Manage account *******************************-->
+
+            <section class="account-container hidden">
+                <h2>Manage your account</h2>
+                <form action="account-form">
+                    <label for="account-email">E-mail</label>
+                    <input id="account-email" class="account-input" type="text" placeholder="Email">
+                    <label for="account-password">Password</label>
+                    <input id="account-password" class="account-input" type="password" placeholder="Password">
+                    <label for="account-name">Name</label>
+                    <input id="account-name" class="account-input" type="text" placeholder="Name">
+                    <h3>Join 'community' to send and receive alarms from other Friends-Alert members.</h3>
+                    <div>
+                        <label id="account-community-label"><strong>Community</strong></label>
+                        <input id="account-community" class="account-input" type="checkbox">
+                    </div>
+                    <button id="account-reset" class="account-button">Reset</button>
+                    <button id="account-submit" class="account-button">Save</button>
+                </form>
+            </section>
+
+        </main>
+
+        <script src="scripts/jquery-3.1.1.min.js"></script>
+        <script src="scripts/main.js"></script>
+    </body>
+</html>

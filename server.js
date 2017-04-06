@@ -80,7 +80,7 @@ app.post('/user', (req, res) => {
         password: req.body.password,
         name: req.body.name || '',
         phone: req.body.phone || 0,
-        contacts: [],
+        // contacts: [],
         community: false,
         startTime: 0,
         alarmTime: 0,
@@ -127,6 +127,30 @@ app.put('/user/:email', (req, res) => {
     }
   });
 
+  // If adding new contact, send sign-up email to contact
+  if(req.body.contacts){
+    User
+    .findOne({'email': req.params.email})
+    .exec()
+    .then((user) => {
+      if(req.body.contacts.length > user.contacts.length){
+        let newContact = req.body.contacts[req.body.contacts.length - 1];
+        let emailData = {
+          from: process.env.ALERT_FROM_EMAIL,
+          to: newContact.email,
+          subject: `Friends Alert from ${user.name}`,
+          html: `Dear ${newContact.name},<br><br>${user.name} ` +
+          `signed you up as an emergency contact on Friends Alert. ` +
+          `As an emergy contact, you will be alerted by email when ` +
+          `${user.name} is late for his/her user set alarm.<br><br>` +
+          `If you agree to be a Friends Alert emergency contact, click ` +
+          `<a href="http://localhost:8080/user/${req.params.email}/${newContact.email}" target="_blank">here</a>`
+        };
+        sendEmail(emailData);
+      }
+    }); // end then
+  } // end sending email to new contact
+
   User
   .findOneAndUpdate({email: req.params.email}, {$set: updateUser}, {new: true})
   .exec()
@@ -135,35 +159,32 @@ app.put('/user/:email', (req, res) => {
   
 }) // end UPDATE user
 
-// verify contact
-// app.get('/user/:email/:contact', (req, res) => {
-//   console.log(req.params.contact);
-//   let arr = [];
+//************* contact management ***************/
 
-//   // find user's contact
-//   User
-//   .findOne({email: req.params.email})
-//   .exec()
-//   .then((user) => {
-//     arr = user.contacts;
-//     for(let i = 0; i <= query.length; i++){
-//       if(arr[i].email === req.params.contact){
-//         arr[i].verified = true;
-//       } 
-//     }
-//   });
+//contact self-verify
+app.get('/user/:email/:contact', (req, res) => {
+  //find user's contacts
+  let contacts = [];
+  User
+  .findOne({'email': req.params.email})
+  .exec()
+  .then(user => {
+    contacts = user.contacts;
+    contacts.forEach((contact) => {
+      if(contact.email === req.params.contact){
+        contact.verified = true;
+      }
+    });
+    let query = {'contacts': contacts};
+    User
+    .findOneAndUpdate({'email': req.params.email}, {$set: query}, {new: true})
+    .exec()
+    .then(updated => res.status(201).json(updated))
+    .catch(err => res.status(500).json({message: 'something went wrong'}));
+  });
+})
 
-//   console.log(arr);
-//   let query = {contacts: arr};
-
-//   // update contact's verify status
-//   User
-//   .findOneAndUpdate({email: req.params.email}, {$set: query}, {new: true})
-//   .exec()
-//   .then(updated => res.status(201).json(updated))
-//   .catch(err => res.status(500).json({message: 'something went wrong'}));
-
-// })
+//****************** timer ************************/
 
 // Set timer
 app.put('/user/time/:email', (req, res) => {
@@ -178,7 +199,7 @@ app.put('/user/time/:email', (req, res) => {
     alarmTime = 0;
   }
 
-  let query = {'startTime': startTime, 'alarmTime': alarmTime};
+  let query = {'startTime': startTime, 'alarmTime': alarmTime, alertOn: req.body.alertOn};
 
   User
   .findOneAndUpdate({email: req.params.email}, {$set: query}, {new: true})
@@ -188,13 +209,14 @@ app.put('/user/time/:email', (req, res) => {
 });
 
 
+
+
+
 // catch all
 app.get('*', (req, res) => {
   res.json({message: 'not found'});
 }); // end catch all
 
-
-//**************** timer *************************
 
 //**************** cron job ***********************
 // pattern *(min) *(hr) *(d) *(m) *(d of w)
@@ -206,21 +228,36 @@ const job = new cronJob('*/1 * * * *', () => {
   console.log(`now: ${currentTime}`);
 
   User
-    .find({'alarmTime': {'$exists': true, '$ne': 0}})
+    .find({'alertOn': true})
     .exec()
     .then(users => {
       console.log(users);
       users.forEach((user) => {
         if(currentTime === user.alarmTime){
-          let emailData = {
-            from: process.env.ALERT_FROM_EMAIL,
-            to: process.env.ALERT_TO_EMAIL,
-            subject: user.email + `: alarmTime is ${user.alarmTime}`,
-            text: "Plain text content",
-            html: `testing html`
-          };
-          sendEmail(emailData);
-          console.log(`send email for user ${user.email}`);
+          // non-community
+          user.contacts.forEach((contact) => {
+            if(contact.verified === true){
+              let emailData = {
+                from: process.env.ALERT_FROM_EMAIL,
+                to: contact.email,
+                subject: `Friends Alert from ${user.name}`,
+                html: `Dear ${contact.name},<br><br>${user.name} ` +
+                `signed you up as an emergency contact and is late for his/her alarm time. ` +
+                `You will receive this alert every hour until the alarm is turned off.`
+              };
+              sendEmail(emailData);
+              console.log(`send email for user ${user.email}, to ${contact.email}`);
+            }
+          }); // end contacts.forEach
+
+          // setting alarmTime to another hour
+          let alarmTime = new Date(Date.parse(new Date()) + (1 * 60 * 60 * 1000));
+          alarmTime = Math.floor(alarmTime / 1000 / 60);
+          let query = {'alarmTime': alarmTime};
+
+          User
+          .findOneAndUpdate({email: user.email}, {$set: query}, {new: true})
+          .exec()
         } // end if
       }); // end forEach
     })
