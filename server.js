@@ -144,7 +144,7 @@ app.put('/user/:email', (req, res) => {
           `As an emergy contact, you will be alerted by email when ` +
           `${user.name} is late for his/her user set alarm.<br><br>` +
           `If you agree to be a Friends Alert emergency contact, click ` +
-          `<a href="http://localhost:8080/user/${req.params.email}/${newContact.email}" target="_blank">here</a>`
+          `<a href="http://localhost:8080/user/${req.params.email}/${newContact.email}" target="_blank">here</a>.`
         };
         sendEmail(emailData);
       }
@@ -209,7 +209,9 @@ app.put('/user/time/:email', (req, res) => {
 });
 
 
-
+app.get('/', (req, res) => {
+  res.render('public/index');
+});
 
 
 // catch all

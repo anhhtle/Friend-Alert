@@ -33,7 +33,7 @@ function getAJAX(url){
 // POST new user
 function postAJAX(){
     $.ajax({
-        url: 'http://localhost:8080/user/',
+        url: 'https://friend-alert.herokuapp.com/',
         data: JSON.stringify({
             'email': STATE.userEmail,
             'password': STATE.userPassword,
@@ -76,7 +76,7 @@ $('.sign-in-button').on('click', (event) => {
     if(validateInput()) {
         STATE.userEmail = $('.email').val();
         STATE.userPassword = $('.password').val();
-        let url = `http://localhost:8080/user/${STATE.userEmail}`;
+        let url = `https://friend-alert.herokuapp.com/${STATE.userEmail}`;
         getAJAX(url);
     }
 });
