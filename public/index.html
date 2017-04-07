@@ -9,21 +9,37 @@
     </head>
     <body>
 
-        <header>
-            <div>Placeholder header</div>
-        </header>
+        <section class="container one">
+            <div class="grid">
+                <div class="one-text">
+                    <h3>Whether you are going on a night jog, or blind date, Friend-Alert gives you peace-of-mind that you are never truely alone</h3>
+                </div>
+                <div class="sign-in-container">
+                    <div class="sign-in-message"></div>
+                    <form class="sign-in-form">
+                        <input class="sign-in email" type="email" placeholder="Email" required>
+                        <input class="sign-in password" type="password" placeholder="Password" required>
+                        <input class="sign-in name hidden" type="text" placeholder="John Doe">
+                        <input class="sign-in phone hidden" type="tel" placeholder="Numbers only">
+                        <button class="sign-in-button" type="submit">Sign in</button>
+                        <button class="create-account-button hidden" type="submit">Create account</button>
+                    </form>
+                    <p class="toggle">Create an account</p>
+                </div>
+            </div>
+        </section>
 
-        <section class="sign-in-container">
-            <div class="sign-in-message"></div>
-            <form class="sign-in-form">
-                <input class="sign-in email" type="email" placeholder="Email" required>
-                <input class="sign-in password" type="password" placeholder="Password" required>
-                <input class="sign-in name hidden" type="text" placeholder="John Doe">
-                <input class="sign-in phone hidden" type="tel" placeholder="Numbers only">
-                <button class="sign-in-button" type="submit">Sign in</button>
-                <button class="create-account-button hidden" type="submit">Create account</button>
-            </form>
-            <p class="toggle">Create an account</p>
+        <section class="container two">
+            <div class="grid">
+                <img class="two-image" src="images/alarm.jpeg" alt="alarm clock">
+                <div class="two-text">Sign-up your friends as emergency contacts. Set an alarm. Until the alarm is turned off, your contacts will be notified every hour when the timer expires</div>
+            </div>
+        </section>
+
+        <section class="container three">
+            <div class="grid">
+                <div class="three-text">If you do not have contacts, join the Friend-Alert community to send and receive alarms from other Friend-Alert community members!</div>
+            </div>
         </section>
         
         <script src="scripts/jquery-3.1.1.min.js"></script>

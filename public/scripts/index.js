@@ -21,7 +21,7 @@ function getAJAX(url){
                 localStorage.setItem('email', STATE.userEmail);
                 return window.location.href = "main.html";
             }
-            return alert('invalid email');
+            return alert('email is not registered');
         },
         error: function(err){
             alert(err);
@@ -33,7 +33,7 @@ function getAJAX(url){
 // POST new user
 function postAJAX(){
     $.ajax({
-        url: 'https://friend-alert.herokuapp.com/',
+        url: 'https://friend-alert.herokuapp.com/user/',
         data: JSON.stringify({
             'email': STATE.userEmail,
             'password': STATE.userPassword,
@@ -76,7 +76,7 @@ $('.sign-in-button').on('click', (event) => {
     if(validateInput()) {
         STATE.userEmail = $('.email').val();
         STATE.userPassword = $('.password').val();
-        let url = `https://friend-alert.herokuapp.com/${STATE.userEmail}`;
+        let url = `https://friend-alert.herokuapp.com/user/${STATE.userEmail}`;
         getAJAX(url);
     }
 });
@@ -91,11 +91,12 @@ $('.create-account-button').on('click', (event) => {
         STATE.userName = $('.name').val();
         STATE.userPhone = $('.phone').val();
         postAJAX();
+        toggle();
     }
 });
 
 //************ toggle sign-in and create account
-$('.toggle').on('click', () => {
+function toggle(){
     const form = $('form');
     form.children('.email').toggleClass('border');
     form.children('.password').toggleClass('border');
@@ -103,5 +104,9 @@ $('.toggle').on('click', () => {
     form.children('.phone').slideToggle();
     form.children('button').toggleClass('hidden');
     form.siblings().text() === 'Create an account' ?
-        form.siblings().text('Sign in') : form.siblings().text('Create an account'); 
+    form.siblings().text('Sign in') : form.siblings().text('Create an account'); 
+};
+
+$('.toggle').on('click', () => {
+    toggle();
 });

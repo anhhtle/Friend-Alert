@@ -90,7 +90,7 @@ function renderAlarm(){
         $('.hour').prop('disabled', true);
         $('.min').prop('disabled', true);
         if(time <= 0){
-            let url = `https://friend-alert.herokuapp.com/${localStorage.email}`;
+            let url = `https://friend-alert.herokuapp.com/user/${localStorage.email}`;
             getAJAX(url);
         }
     }
@@ -111,7 +111,7 @@ $('#alarm-on-button').on('click', function(event) {
     let hour = Number($('.hour').val());
     let min = Number($('.min').val());
     let query = {hour: hour, min: min, alertOn: true};
-    let url = `https://friend-alert.herokuapp.com/time/${localStorage.email}`;
+    let url = `https://friend-alert.herokuapp.com/user/time/${localStorage.email}`;
     STATE.alarmTime = new Date(Date.parse(new Date()) + (hour * 60 * 60 * 1000) + (min * 60 * 1000));
     STATE.alarmTime = Math.floor(STATE.alarmTime / 1000 / 60);
     $('.hour').prop('disabled', true);
@@ -127,7 +127,7 @@ $('#alarm-off-button').on('click', function(event) {
     $('.hour').val(0);
     $('.min').val(0);
     let query = {hour: 0, min: 0, alertOn: false};
-    let url = `https://friend-alert.herokuapp.com/time/${localStorage.email}`;
+    let url = `https://friend-alert.herokuapp.com/user/time/${localStorage.email}`;
     $('.hour').prop('disabled', false);
     $('.min').prop('disabled', false);
     putAJAX(url, query);
@@ -181,7 +181,7 @@ function renderContacts(){
 
 $('.contact-form').on('submit', (event) => {
     event.preventDefault();
-    let url = `https://friend-alert.herokuapp.com/${localStorage.email}`;
+    let url = `https://friend-alert.herokuapp.com/user/${localStorage.email}`;
     processContact(url);
     renderContacts();
 })
@@ -192,7 +192,7 @@ $('.contacts-results').on('click', 'button', function(event) {
     let index = $(this).attr('id');
     STATE.contacts.splice(index, 1);
     let query = {contacts: STATE.contacts};
-    let url = `https://friend-alert.herokuapp.com/${localStorage.email}`;
+    let url = `https://friend-alert.herokuapp.com/user/${localStorage.email}`;
     putAJAX(url, query);
     renderContacts();
 });
@@ -214,7 +214,7 @@ $('#account-reset').on('click', (event) => {
 
 $('#account-submit').on('click', (event) => {
     event.preventDefault();
-    let url = `https://friend-alert.herokuapp.com/${localStorage.email}`
+    let url = `https://friend-alert.herokuapp.com/user/${localStorage.email}`
     STATE.email = $('#account-email').val();
     STATE.password = $('#account-password').val();
     STATE.name = $('#account-name').val();
@@ -228,6 +228,6 @@ $('#account-submit').on('click', (event) => {
 
 $(function() {
     // check localStorage.email === null .... redirect to sign-in
-    let url = `https://friend-alert.herokuapp.com/${localStorage.email}`;
+    let url = `https://friend-alert.herokuapp.com/user/${localStorage.email}`;
     getAJAX(url);
 });

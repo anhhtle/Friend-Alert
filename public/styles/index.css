@@ -8,17 +8,44 @@ html {
 
 body {
     height: 100%;
+    background-color: #9684A1;
 }
 
-header {
-    height: 30%;
-    text-align: center;
+
+/***************** section-one ****************/
+
+.container {
+    width: 100%;
+    height: 700px;
+    padding: 50px;
 }
 
-/***************** Sign-in Form ************/
+.one {
+    background-image: url('../images/header.jpeg');
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 93%);
+}
+
+.grid {
+    position: relative;
+    width: 1000px;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.one-text {
+    display: inline-block;
+    position: absolute;
+    top: 100px;
+    width: 50%;
+    margin-right: 20px;
+    font-size: 30px;   
+}
 
 .sign-in-container {
-    margin: 0 auto;
+    display: inline-block;
+    position: absolute;
+    top: 100px;
+    right: 50px;
     width: 380px;
     text-align: center;
     padding: 40px;
@@ -47,7 +74,46 @@ button {
     cursor: pointer;
 }
 
-/**************** animation ******************/
+/************** section-two *****************/
+
+.two {
+    height: 600px;
+    padding-top: 70px;
+}
+
+.two-image {
+    position: absolute;
+    width: 45%;
+    float: left;
+    top: 30px;
+    box-shadow: 5px 5px 5px #999999;
+}
+
+.two-text {
+    display: inline-block;
+    position: absolute;
+    top: 100px;
+    right: 0;
+    width: 50%;
+    margin-left: 20px;
+    font-size: 30px;   
+}
+
+/***************** section three ******************/
+
+.three {
+    height: 400px;
+    background-color: #B6C9BB;
+    clip-path: polygon(100% 100%, 100% 0%, 0% 10%, 0 100%);
+}
+
+.three-text {
+    position: absolute;
+    top: 100px;
+    font-size: 30px;
+}
+
+/******************* animation ******************/
 .hidden {
     display: none;
 }
