@@ -63,6 +63,19 @@ function putAJAX(url, query){
     });
 };
 
+// DELETE user
+function deleteAJAX(){
+    $.ajax({
+        url: `https://friend-alert.herokuapp.com/user/${localStorage.email}`,
+        type: 'DELETE',
+        success: function(data){
+            console.log(data);
+            localStorage.clear();
+            return window.location.href = "index.html";
+        }
+    });
+};
+
 //************************ Manage alarm **************************
 
 function renderAlarm(){
@@ -90,6 +103,8 @@ function renderAlarm(){
         $('.hour').prop('disabled', true);
         $('.min').prop('disabled', true);
         if(time <= 0){
+            STATE.alarmTime = Date.parse(new Date()) + 60 * 60 * 1000;
+            STATE.alarmTime = Math.ceil(STATE.alarmTime / 1000 / 60);
             let url = `https://friend-alert.herokuapp.com/user/${localStorage.email}`;
             getAJAX(url);
         }
@@ -207,11 +222,13 @@ function renderAccount(){
         $('#account-community').prop('checked', 'true');
 };
 
+// reset button
 $('#account-reset').on('click', (event) => {
     event.preventDefault();
     renderAccount();
 });
 
+// save button
 $('#account-submit').on('click', (event) => {
     event.preventDefault();
     let url = `https://friend-alert.herokuapp.com/user/${localStorage.email}`
@@ -223,6 +240,13 @@ $('#account-submit').on('click', (event) => {
     putAJAX(url, query);
     renderAccount();
 });
+
+// delete button
+$('#account-delete').on('click', (event) => {
+    event.preventDefault();
+    if(confirm('Are you sure?'))
+        deleteAJAX();
+})
 
 //********************* run after DOM load ********************
 

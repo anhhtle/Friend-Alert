@@ -57,19 +57,22 @@
             <section class="account-container hidden">
                 <h2>Manage your account</h2>
                 <form action="account-form">
-                    <label for="account-email">E-mail</label>
-                    <input id="account-email" class="account-input" type="text" placeholder="Email">
-                    <label for="account-password">Password</label>
-                    <input id="account-password" class="account-input" type="password" placeholder="Password">
-                    <label for="account-name">Name</label>
-                    <input id="account-name" class="account-input" type="text" placeholder="Name">
-                    <h3>Join 'community' to send and receive alarms from other Friends-Alert members.</h3>
-                    <div>
-                        <label id="account-community-label"><strong>Community</strong></label>
+                    <div class="input-container">
+                        <p>E-mail</p>
+                        <input id="account-email" class="account-input" type="text" placeholder="Email">
+                        <p>Password</p>
+                        <input id="account-password" class="account-input" type="password" placeholder="Password">
+                        <p>Name</p>
+                        <input id="account-name" class="account-input" type="text" placeholder="Name">
+                    </div>
+                    <h3 class="community-text">Join "community" to send your alerts to other Friends-Alert community members. You will also receive alerts from the community</h3>
+                    <div class="community-container">
                         <input id="account-community" class="account-input" type="checkbox">
+                        <label for="account-community">Community</label>
                     </div>
                     <button id="account-reset" class="account-button">Reset</button>
                     <button id="account-submit" class="account-button">Save</button>
+                    <button id="account-delete" class= "account-button">Delete account</button>
                 </form>
             </section>
 

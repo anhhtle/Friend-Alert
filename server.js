@@ -15,7 +15,7 @@ require('dotenv').config();
 const app = express();
 app.use(morgan('common'));
 app.use(bodyParser.json());
-app.use('/static', express.static('public'));
+app.use(express.static('public'));
 mongoose.Promise = global.Promise;
 
 // ******************* API ************************
@@ -120,7 +120,7 @@ app.delete('/user/:email', (req, res) => {
 // UPDATE a user
 app.put('/user/:email', (req, res) => {
   let updateUser = {};
-  const updateableFields = ['email', 'password', 'name', 'phone', 'community', 'startTime', 'alarmTime', 'alertOn', 'contacts'];
+  const updateableFields = ['email', 'password', 'name', 'community', 'startTime', 'alarmTime', 'alertOn', 'contacts'];
   updateableFields.forEach(field => {
     if(field in req.body){
       updateUser[field] = req.body[field];
@@ -144,7 +144,7 @@ app.put('/user/:email', (req, res) => {
           `As an emergy contact, you will be alerted by email when ` +
           `${user.name} is late for his/her user set alarm.<br><br>` +
           `If you agree to be a Friends Alert emergency contact, click ` +
-          `<a href="http://localhost:8080/user/${req.params.email}/${newContact.email}" target="_blank">here</a>.`
+          `<a href="https://friend-alert.herokuapp.com/user/${req.params.email}/${newContact.email}" target="_blank">here</a>.`
         };
         sendEmail(emailData);
       }
@@ -208,12 +208,6 @@ app.put('/user/time/:email', (req, res) => {
   .catch(err => res.status(500).json({message: 'something went wrong'}));
 });
 
-
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
-});
-
-
 // catch all
 app.get('*', (req, res) => {
   res.json({message: 'not found'});
@@ -245,7 +239,9 @@ const job = new cronJob('*/1 * * * *', () => {
                 subject: `Friends Alert from ${user.name}`,
                 html: `Dear ${contact.name},<br><br>${user.name} ` +
                 `signed you up as an emergency contact and is late for his/her alarm time. ` +
-                `You will receive this alert every hour until the alarm is turned off.`
+                `You will receive this alert every hour until the alarm is turned off.<br><br>` +
+                `Contact info:<br>${user.email}<br><br>If you verified that ${user.name} is ok, ` +
+                `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off alarm.`
               };
               sendEmail(emailData);
               console.log(`send email for user ${user.email}, to ${contact.email}`);

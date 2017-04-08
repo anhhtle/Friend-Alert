@@ -2,7 +2,6 @@ let STATE = {
     userEmail: '',
     userPassword: '',
     userName: '',
-    userPhone: 0
 };
 
 //************* AJAX *******************/
@@ -15,16 +14,21 @@ function getAJAX(url){
         dataType: 'json',
         success: function(data){
             if(data.length === 1){
-                if(STATE.userPassword !== data[0].password)
-                    return alert('invalid password');
+                if(STATE.userPassword !== data[0].password){
+                    $('.sign-in-message').removeClass('hidden');
+                    $('.sign-in-message').text('Incorrect password');
+                    return;
+                }
                 // navigate to main page
+                $('.sign-in-message').addClass('hidden');
                 localStorage.setItem('email', STATE.userEmail);
-                return window.location.href = "main.html";
+                return window.location.href = 'main.html';
             }
-            return alert('email is not registered');
+            $('.sign-in-message').removeClass('hidden');
+            $('.sign-in-message').text('E-email not registered');
         },
         error: function(err){
-            alert(err);
+            console.error(err);
         }
     });
 
@@ -38,17 +42,15 @@ function postAJAX(){
             'email': STATE.userEmail,
             'password': STATE.userPassword,
             'name': STATE.userName,
-            'phone': STATE.userPhone
         }),
         type: 'POST',
         contentType: 'application/json',
         dataType: 'json',
         success: function(data){
             console.log(data);
-            alert('client side POST Success');
         },
         error: function(err){
-            alert(err.responseText);
+            console.error(err.responseText);
         }
     });
 
@@ -59,11 +61,13 @@ function postAJAX(){
 //require email and password
 function validateInput(){
     if($('.email').val() === ''){
-        alert('missing email');
+        $('.sign-in-message').text('Missing email');
+        $('.sign-in-message').removeClass('hidden');
         return false;
     }
     if($('.password').val() === ''){
-        alert('missing password');
+        $('.sign-in-message').text('Missing password');
+        $('.sign-in-message').removeClass('hidden');
         return false;
     }
     return true;
@@ -85,11 +89,14 @@ $('.sign-in-button').on('click', (event) => {
 
 $('.create-account-button').on('click', (event) => {
     event.preventDefault();
+    if($('.name').val() === ''){
+        $('.sign-in-message').text('Missing name');
+        return;
+    }
     if(validateInput()) {
         STATE.userEmail = $('.email').val();
         STATE.userPassword = $('.password').val();
         STATE.userName = $('.name').val();
-        STATE.userPhone = $('.phone').val();
         postAJAX();
         toggle();
     }
@@ -98,13 +105,12 @@ $('.create-account-button').on('click', (event) => {
 //************ toggle sign-in and create account
 function toggle(){
     const form = $('form');
-    form.children('.email').toggleClass('border');
-    form.children('.password').toggleClass('border');
     form.children('.name').slideToggle();
     form.children('.phone').slideToggle();
     form.children('button').toggleClass('hidden');
-    form.siblings().text() === 'Create an account' ?
-    form.siblings().text('Sign in') : form.siblings().text('Create an account'); 
+    form.siblings('div').addClass('hidden');
+    form.siblings('p').text() === 'Create an account' ?
+    form.siblings('p').text('Sign in') : form.siblings('p').text('Create an account'); 
 };
 
 $('.toggle').on('click', () => {

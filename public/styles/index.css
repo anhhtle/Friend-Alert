@@ -13,6 +13,28 @@ body {
 
 
 /***************** section-one ****************/
+/**** logo ****/
+.logo {
+    margin: 0 auto;
+    width: 300px;
+    text-align: center;
+    font-size: 35px;
+    font-weight: bold;
+    border: 3pt solid crimson;
+    border-radius: 10pt;
+    background-color: antiquewhite;
+}
+
+.friend {
+    color: #985F99;
+    text-shadow: 2px 2px #BFEDC1;
+}
+
+.alert {
+    color: #BFEDC1;
+    text-shadow: 2px 2px #985F99;
+}
+/****************/
 
 .container {
     width: 100%;
@@ -21,7 +43,12 @@ body {
 }
 
 .one {
-    background-image: url('../images/header.jpeg');
+    background-image:
+       linear-gradient(
+           to bottom,
+         rgba(0, 0, 0, 0.1),
+         rgba(0, 0, 0, 0.8)
+        ), url('../images/header.jpeg');
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 93%);
 }
 
@@ -32,19 +59,21 @@ body {
     margin: 0 auto;
 }
 
+
 .one-text {
     display: inline-block;
     position: absolute;
     top: 100px;
     width: 50%;
     margin-right: 20px;
-    font-size: 30px;   
+    font-size: 35px;
+    color: white;
 }
 
 .sign-in-container {
     display: inline-block;
     position: absolute;
-    top: 100px;
+    top: 140px;
     right: 50px;
     width: 380px;
     text-align: center;
@@ -52,6 +81,11 @@ body {
     background-color: lightgray;
     border-radius: 2px;
     box-shadow: 0 2px 2px;
+}
+
+.sign-in-message {
+    color: red;
+    margin-bottom: 20px;
 }
 
 .sign-in, button {
@@ -92,11 +126,12 @@ button {
 .two-text {
     display: inline-block;
     position: absolute;
-    top: 100px;
+    top: 90px;
     right: 0;
     width: 50%;
     margin-left: 20px;
-    font-size: 30px;   
+    color: #BFEDC1;
+    font-size: 35px;   
 }
 
 /***************** section three ******************/
@@ -109,15 +144,13 @@ button {
 
 .three-text {
     position: absolute;
+    text-align: center;
     top: 100px;
-    font-size: 30px;
+    font-size: 35px;
+    color: #985F99;
 }
 
 /******************* animation ******************/
 .hidden {
     display: none;
-}
-
-.border {
-    border: 3px solid darkred;
 }
