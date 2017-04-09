@@ -136,7 +136,7 @@ app.put('/user/:email', (req, res) => {
       if(req.body.contacts.length > user.contacts.length){
         let newContact = req.body.contacts[req.body.contacts.length - 1];
         let emailData = {
-          from: process.env.ALERT_FROM_EMAIL,
+          from: 'friend.alert.app@gmail.com',
           to: newContact.email,
           subject: `Friends Alert from ${user.name}`,
           html: `Dear ${newContact.name},<br><br>${user.name} ` +
@@ -236,7 +236,7 @@ const job = new cronJob('*/1 * * * *', () => {
           user.contacts.forEach((contact) => {
             if(contact.verified === true){
               let emailData = {
-                from: process.env.ALERT_FROM_EMAIL,
+                from: 'friend.alert.app@gmail.com',
                 to: contact.email,
                 subject: `Friends Alert from ${user.name}`,
                 html: `Dear ${contact.name},<br><br>${user.name} ` +
@@ -280,6 +280,11 @@ function runServer(databaseUrl=DATABASE_URL, port=PORT) {
       }
       server = app.listen(port, () => {
         console.log(`Your app is listening on port ${port}`);
+        // sendEmail({
+        //   from: 'friend.alert.app@gmail.com',
+        //   to: 'anh.ht.le@gmail.com',
+        //   subject: 'email on server start up'
+        // });
         resolve();
       })
       .on('error', err => {
