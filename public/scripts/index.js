@@ -91,6 +91,7 @@ $('.create-account-button').on('click', (event) => {
     event.preventDefault();
     if($('.name').val() === ''){
         $('.sign-in-message').text('Missing name');
+        $('.sign-in-message').removeClass('hidden');
         return;
     }
     if(validateInput()) {

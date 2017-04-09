@@ -1,0 +1,54 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    background-color: #BFEDC1;
+    text-align: center;
+}
+
+/***************** header **************************/
+header {
+    width: 100%;
+    height: 80px;
+    background-color: #985F99;
+}
+
+/****** logo ********/
+.logo {
+    position: relative;
+    top: 15px;
+    margin: 0 auto;
+    width: 300px;
+    text-align: center;
+    font-size: 35px;
+    font-weight: bold;
+    border: 3pt solid crimson;
+    border-radius: 10pt;
+    background-color: antiquewhite;
+}
+
+a {
+    text-decoration: none;
+}
+
+.friend {
+    color: #985F99;
+    text-shadow: 2px 2px #BFEDC1;
+}
+
+.alert {
+    color: #BFEDC1;
+    text-shadow: 2px 2px #985F99;
+}
+
+/******************* body ************************/
+h1 {
+    margin-top: 80px;
+    color: #985F99;
+}

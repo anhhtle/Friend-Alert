@@ -1,6 +1,6 @@
 'use strict'
 const nodemailer = require('nodemailer');
-const SMTP_URL='smtps://anh.ht.le@gmail.com:anhleash1@smtp.gmail.com';
+const SMTP_URL='smtps://anh.ht.le@gmail.com:anhleash2@smtp.gmail.com';
 
 const sendEmail = (emailData, smtpUrl=SMTP_URL) => {
     const transporter = nodemailer.createTransport(SMTP_URL);

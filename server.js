@@ -179,7 +179,7 @@ app.get('/user/:email/:contact', (req, res) => {
     User
     .findOneAndUpdate({'email': req.params.email}, {$set: query}, {new: true})
     .exec()
-    .then(updated => res.status(201).json(updated))
+    .then(() => res.sendFile('/public/verified/html'))
     .catch(err => res.status(500).json({message: 'something went wrong'}));
   });
 })
@@ -207,6 +207,8 @@ app.put('/user/time/:email', (req, res) => {
   .then(updated => res.status(201).json(updated))
   .catch(err => res.status(500).json({message: 'something went wrong'}));
 });
+
+//
 
 // catch all
 app.get('*', (req, res) => {

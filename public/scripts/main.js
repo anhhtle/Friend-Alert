@@ -28,17 +28,13 @@ $('li').on('click', function() {
 //*********************** API ******************************/
 
 // GET active user
-function getAJAX(url){
+function getAJAX(){
     $.ajax({
-        url: url,
+        url: `https://friend-alert.herokuapp.com/user/${localStorage.email}`,
         dataType: 'json',
         success: function(data){
             STATE = data[0];
-            if(STATE.alertOn === true)
-                setInterval(renderAlarm, 60000);
             renderAlarm();
-            renderContacts();
-            renderAccount();
         },
         error: function(err){
             alert(err);
@@ -102,12 +98,6 @@ function renderAlarm(){
         $('#alarm-off-button').removeClass('hidden');
         $('.hour').prop('disabled', true);
         $('.min').prop('disabled', true);
-        if(time <= 0){
-            STATE.alarmTime = Date.parse(new Date()) + 60 * 60 * 1000;
-            STATE.alarmTime = Math.ceil(STATE.alarmTime / 1000 / 60);
-            let url = `https://friend-alert.herokuapp.com/user/${localStorage.email}`;
-            getAJAX(url);
-        }
     }
     if(STATE.alertOn === false){
         $('#alarm-on-button').removeClass('hidden');
@@ -132,7 +122,6 @@ $('#alarm-on-button').on('click', function(event) {
     $('.hour').prop('disabled', true);
     $('.min').prop('disabled', true);
     putAJAX(url, query);
-    setInterval(renderAlarm, 60000);
 });
 
 $('#alarm-off-button').on('click', function(event) {
@@ -252,6 +241,14 @@ $('#account-delete').on('click', (event) => {
 
 $(function() {
     // check localStorage.email === null .... redirect to sign-in
-    let url = `https://friend-alert.herokuapp.com/user/${localStorage.email}`;
-    getAJAX(url);
+    getAJAX();
+    setInterval(() => {
+        console.log('ajax interval 1 min');
+        getAJAX();
+    }, 60000);
+
+    setTimeout(() => {
+        renderContacts();
+        renderAccount();
+    }, 2000);
 });
