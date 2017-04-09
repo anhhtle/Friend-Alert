@@ -179,7 +179,7 @@ app.get('/user/:email/:contact', (req, res) => {
     User
     .findOneAndUpdate({'email': req.params.email}, {$set: query}, {new: true})
     .exec()
-    .then(() => res.sendFile('/public/verified/html'))
+    .then(() => res.sendFile( __dirname + 'verified.html' ))
     .catch(err => res.status(500).json({message: 'something went wrong'}));
   });
 })
