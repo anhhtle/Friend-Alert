@@ -99,7 +99,7 @@ function renderAlarm(){
 
     $('.hour').val(hour);
     $('.min').val(min);
-    $('.email message').val(STATE.message);
+    $('textarea').val(STATE.message);
 
     if(STATE.alertOn === true){
         $('#alarm-on-button').addClass('hidden');
@@ -123,7 +123,7 @@ $('#alarm-on-button').on('click', function(event) {
     $('#alarm-off-button').removeClass('hidden');
     let hour = Number($('.hour').val());
     let min = Number($('.min').val());
-    STATE.message = $('.email message').val();
+    STATE.message = $('textarea').val();
     let query = {hour: hour, min: min, message: STATE.message, alertOn: true};
     let url = `https://friend-alert.herokuapp.com/user/time/${localStorage.email}`;
     STATE.alarmTime = new Date(Date.parse(new Date()) + (hour * 60 * 60 * 1000) + (min * 60 * 1000));
@@ -133,7 +133,7 @@ $('#alarm-on-button').on('click', function(event) {
     // disable input fields when alarm is active
     $('.hour').prop('disabled', true);
     $('.min').prop('disabled', true);
-    $('.email message').prop('disabled', true);
+    $('textarea').prop('disabled', true);
 });
 
 $('#alarm-off-button').on('click', function(event) {
@@ -237,6 +237,7 @@ $('#account-submit').on('click', (event) => {
     STATE.password = $('#account-password').val();
     STATE.name = $('#account-name').val();
     STATE.community = $('#account-community').prop('checked');
+    localStorage.email = STATE.email;
     let query = {email: STATE.email, password: STATE.password, name: STATE.name, community: STATE.community};
     putAJAX(url, query);
     renderAccount();

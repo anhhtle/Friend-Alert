@@ -228,6 +228,7 @@ const job = new cronJob('*/1 * * * *', () => {
       console.log(users);
       users.forEach((user) => {
         if(currentTime <= user.alarmTime){
+          
           // non-community
           if(user.community === false){
             user.contacts.forEach((contact) => {
@@ -250,30 +251,30 @@ const job = new cronJob('*/1 * * * *', () => {
           }
 
           // community
-          else{
-            User
-            .find({'community': true})
-            .exec()
-            .then((communityMembers) => {
-              communityMembers.forEach((member) => {
-                if(member.email != user.email){ // don't send email to self
-                  let emailData = {
-                    from: '"Friend-Alert" <friend.alert.app@gmail.com>',
-                    to: member.email,
-                    subject: `Friend-Alert community alert for ${user.name}!`,
-                    html: `Dear ${member.name},<br><br>Community member ${user.name} ` +
-                    `is late for his/her alarm. ` +
-                    `You will receive this alert every hour until the alarm is turned off.<br><br>` +
-                    `Contact info:<br>${user.email}<br><br>If you verified that ${user.name} is ok, ` +
-                    `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off alarm.<br><br>` +
-                    `---------------------- ${user.name}'s message ----------------------<br><br>${user.message}`
-                  };
-                  sendEmail(emailData);
-                  console.log(`send email for user ${user.email}, to ${member.email}`);
-                }
-              });
-            })
-          }
+          // if(user.community === true){
+          //   User
+          //   .find({'community': true})
+          //   .exec()
+          //   .then((communityMembers) => {
+          //     communityMembers.forEach((member) => {
+          //       if(member.email != user.email){ // don't send email to self
+          //         let emailData = {
+          //           from: '"Friend-Alert" <friend.alert.app@gmail.com>',
+          //           to: member.email,
+          //           subject: `Friend-Alert community alert for ${user.name}!`,
+          //           html: `Dear ${member.name},<br><br>Community member ${user.name} ` +
+          //           `is late for his/her alarm. ` +
+          //           `You will receive this alert every hour until the alarm is turned off.<br><br>` +
+          //           `Contact info:<br>${user.email}<br><br>If you verified that ${user.name} is ok, ` +
+          //           `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off alarm.<br><br>` +
+          //           `---------------------- ${user.name}'s message ----------------------<br><br>${user.message}`
+          //         };
+          //         sendEmail(emailData);
+          //         console.log(`send email for user ${user.email}, to ${member.email}`);
+          //       }
+          //     });
+          //   })
+          // }
           // end community
 
           // setting alarmTime to another hour
@@ -283,7 +284,8 @@ const job = new cronJob('*/1 * * * *', () => {
 
           User
           .findOneAndUpdate({email: user.email}, {$set: query}, {new: true})
-          .exec()
+          .exec();
+
         } // end if
       }); // end forEach
     })
