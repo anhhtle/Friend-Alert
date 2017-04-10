@@ -228,7 +228,7 @@ const job = new cronJob('*/1 * * * *', () => {
       console.log(users);
       users.forEach((user) => {
         if(currentTime <= user.alarmTime){
-          
+
           user.contacts.forEach((contact) => {
             if(contact.verified === true){
               let emailData = {
@@ -246,23 +246,23 @@ const job = new cronJob('*/1 * * * *', () => {
               console.log(`send email for user ${user.email}, to ${contact.email}`);
             }
 
-          // setting alarm to another hour
-          let alarmTime = new Date(Date.parse(new Date()) + (1 * 60 * 60 * 1000));
-          alarmTime = Math.floor(alarmTime / 1000 / 60);
-          let query = {'alarmTime': alarmTime};
+            // setting alarm to another hour
+            let alarmTime = new Date(Date.parse(new Date()) + (1 * 60 * 60 * 1000));
+            alarmTime = Math.floor(alarmTime / 1000 / 60);
+            let query = {'alarmTime': alarmTime};
 
-          User
-          .findOneAndUpdate({email: user.email}, {$set: query}, {new: true})
-          .exec();
-        }); // end forEach
-      }
+            User
+            .findOneAndUpdate({email: user.email}, {$set: query}, {new: true})
+            .exec();
+          });
+        }
+      })
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err);
     });
 });
-
-
+  
 //*************** server **************************
 
 let server;
