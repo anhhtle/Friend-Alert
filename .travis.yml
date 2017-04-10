@@ -2,4 +2,8 @@ language: node_js
 node_js: node
 deploy:
   provider: heroku
+  api_key:
+    secure: jYVdTLMj8ryqllmMu0e6mbelmUFdd64b1O8368Qv9Gz3CE/bNDBPVL2KPHCuj0YnXKYsiBOvFkU4yBkt5MrPE+WdyQ63v1J3zT7/VEfQ2QniRjTVkivD07K+aQBpAUboINI6yZ961vjDiMpuZwX9E2rUVBYyMqe84S3lP4PPrXDCIzfBmecwwi0TIUgKaYcFeuiilC7jwlufZBF9bY3MyygGi66Jq8pB0nt2+DlcLb5YeCc8a1iTU2HHXEduCol/W44eMuO/TI4+ZfELTP68jLOAf27Cz4Tp5vGATPRH31RD+lgegPONLwg3XkwMtJBf6vT/uKJGt3CF+Q/LdzqSanbiSKta+l7F9QEApiQR92h1YH/41f+GShxKCOe7e5Lie+xWZgGWhZPDqJ7N68JFs/49yWBb1W91ZYsxEZXUF458fgfBfrSYVDxiNvsJkxXSq8ndMm87cVAJSHS/sF6c7ScOWItpEprF2cQ1h9nGErDrBYuY4dpjJlNNTrm8R48Wb2iHPPMA2+1z7feG3Jv9RlJ3hL30RcJ3KBHyJ453chlmYVJHrEQU7iYGCOHT8a3T0HRg+IHMfG7xmerZnhs3TDKKFwm8sdtNDxZGw+sO46ucB2k5ONbUYk/lFuFNCW/4MQBqpEs5+wqxJyTnGB3Mro5jlcm+wIUk4fOWwEQ3UY0=
   app: friend-alert
+  on:
+    repo: anhhtle/Friend-Alert
