@@ -227,7 +227,7 @@ const job = new cronJob('*/1 * * * *', () => {
     .then(users => {
       console.log(users);
       users.forEach((user) => {
-        if(currentTime <= user.alarmTime){
+        if(currentTime === user.alarmTime){
 
           user.contacts.forEach((contact) => {
             if(contact.verified === true){
