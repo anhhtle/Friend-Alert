@@ -138,16 +138,26 @@ button {
 
 .three {
     height: 400px;
+    overflow: hidden;
     background-color: #B6C9BB;
     clip-path: polygon(100% 100%, 100% 0%, 0% 10%, 0 100%);
 }
 
 .three-text {
-    position: absolute;
     text-align: center;
-    top: 100px;
+    margin-top: 70px;
     font-size: 35px;
     color: #985F99;
+}
+
+.git-hub {
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 50px;
+}
+
+.git-hub img {
+    width: 70px;
 }
 
 /******************* animation ******************/

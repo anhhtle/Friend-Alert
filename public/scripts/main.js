@@ -11,13 +11,20 @@ let STATE = {
         opt_out: false
     }],
     community: false,
-    startTime: 0,
+    message: '',
     alarmTime: 0,
     alertOn: false
 };
 
 //********************* Navigation ***********************/
-$('li').on('click', function() {
+// click on logo to sign-out
+$('.logo').on('click', () => {
+    localStorage.clear();
+    return window.location.href = "index.html";
+});
+
+// navigate
+$('.navigation-ul').on('click', 'li', function() {
     $(this).addClass('active');
     $(this).siblings().removeClass('active');
     let id = $(this).attr('id');
@@ -92,6 +99,7 @@ function renderAlarm(){
 
     $('.hour').val(hour);
     $('.min').val(min);
+    $('.email message').val(STATE.message);
 
     if(STATE.alertOn === true){
         $('#alarm-on-button').addClass('hidden');
@@ -115,13 +123,17 @@ $('#alarm-on-button').on('click', function(event) {
     $('#alarm-off-button').removeClass('hidden');
     let hour = Number($('.hour').val());
     let min = Number($('.min').val());
-    let query = {hour: hour, min: min, alertOn: true};
+    STATE.message = $('.email message').val();
+    let query = {hour: hour, min: min, message: STATE.message, alertOn: true};
     let url = `https://friend-alert.herokuapp.com/user/time/${localStorage.email}`;
     STATE.alarmTime = new Date(Date.parse(new Date()) + (hour * 60 * 60 * 1000) + (min * 60 * 1000));
     STATE.alarmTime = Math.floor(STATE.alarmTime / 1000 / 60);
+    putAJAX(url, query);
+    
+    // disable input fields when alarm is active
     $('.hour').prop('disabled', true);
     $('.min').prop('disabled', true);
-    putAJAX(url, query);
+    $('.email message').prop('disabled', true);
 });
 
 $('#alarm-off-button').on('click', function(event) {
@@ -241,6 +253,10 @@ $('#account-delete').on('click', (event) => {
 
 $(function() {
     // check localStorage.email === null .... redirect to sign-in
+    if(localStorage.email === undefined){
+        return window.location.href = "index.html";
+    }
+
     getAJAX();
     setInterval(() => {
         console.log('ajax interval 1 min');

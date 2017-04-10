@@ -9,11 +9,14 @@
     </head>
     <body>
         <header>
-            <ul>
-                <li id="account-container">Account</li>
-                <li id="contact-container">Contacts</li>
-                <li id="alarm-container" class="active">Alarm</li>
-            </ul>
+            <div class="navigation-container">
+                <div class="logo"><span class="friend">Friend</span>-<span class="alert">Alert</span></div>
+                <ul class="navigation-ul">
+                    <li id="account-container">Account</li>
+                    <li id="contact-container">Contacts</li>
+                    <li id="alarm-container" class="active">Alarm</li>
+                </ul>
+            </div>
         </header>
 
         <main>
@@ -32,7 +35,7 @@
                         <div class="clock-text">Minutes</div>
                     </div>
                     <h3>Email message</h3>
-                    <textarea class="email message" rows="8" cols="50"></textarea>
+                    <textarea class="email message" rows="8" cols="50" placeholder="I will be downtown. If you see this alert, contact me at (999) 999-9999"></textarea>
                     <button id="alarm-on-button" class="clock button" type="submit">Turn on alarm</button>
                     <button id="alarm-off-button" class="clock button hidden">Turn off alarm</button>
                 </form>

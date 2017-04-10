@@ -80,9 +80,8 @@ app.post('/user', (req, res) => {
         password: req.body.password,
         name: req.body.name || '',
         phone: req.body.phone || 0,
-        // contacts: [],
         community: false,
-        startTime: 0,
+        message: '',
         alarmTime: 0,
         alertOn: false
       };
@@ -120,7 +119,7 @@ app.delete('/user/:email', (req, res) => {
 // UPDATE a user
 app.put('/user/:email', (req, res) => {
   let updateUser = {};
-  const updateableFields = ['email', 'password', 'name', 'community', 'startTime', 'alarmTime', 'alertOn', 'contacts'];
+  const updateableFields = ['email', 'password', 'name', 'community', 'message', 'alarmTime', 'alertOn', 'contacts'];
   updateableFields.forEach(field => {
     if(field in req.body){
       updateUser[field] = req.body[field];
@@ -188,18 +187,15 @@ app.get('/user/:email/:contact', (req, res) => {
 
 // Set timer
 app.put('/user/time/:email', (req, res) => {
-  let startTime = Date.parse(new Date());
-  startTime = Math.floor(startTime / 1000 / 60); 
 
   let alarmTime = new Date(Date.parse(new Date()) + (req.body.hour * 60 * 60 * 1000) + (req.body.min * 60 * 1000));
   alarmTime = Math.floor(alarmTime / 1000 / 60);
 
   if(req.body.hour === 0 && req.body.min === 0){
-    startTime = 0;
     alarmTime = 0;
   }
 
-  let query = {'startTime': startTime, 'alarmTime': alarmTime, alertOn: req.body.alertOn};
+  let query = {'alarmTime': alarmTime, 'message': req.body.message , 'alertOn': req.body.alertOn};
 
   User
   .findOneAndUpdate({email: req.params.email}, {$set: query}, {new: true})
@@ -231,24 +227,54 @@ const job = new cronJob('*/1 * * * *', () => {
     .then(users => {
       console.log(users);
       users.forEach((user) => {
-        if(currentTime === user.alarmTime){
+        if(currentTime <= user.alarmTime){
           // non-community
-          user.contacts.forEach((contact) => {
-            if(contact.verified === true){
-              let emailData = {
-                from: 'friend.alert.app@gmail.com',
-                to: contact.email,
-                subject: `Friends Alert from ${user.name}`,
-                html: `Dear ${contact.name},<br><br>${user.name} ` +
-                `signed you up as an emergency contact and is late for his/her alarm time. ` +
-                `You will receive this alert every hour until the alarm is turned off.<br><br>` +
-                `Contact info:<br>${user.email}<br><br>If you verified that ${user.name} is ok, ` +
-                `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off alarm.`
-              };
-              sendEmail(emailData);
-              console.log(`send email for user ${user.email}, to ${contact.email}`);
-            }
-          }); // end contacts.forEach
+          if(user.community === false){
+            user.contacts.forEach((contact) => {
+              if(contact.verified === true){
+                let emailData = {
+                  from: '"Friend-Alert" <friend.alert.app@gmail.com>',
+                  to: contact.email,
+                  subject: `Friend-Alert alarm for ${user.name}`,
+                  html: `Dear ${contact.name},<br><br>${user.name} ` +
+                  `signed you up as an emergency contact and is late for his/her alarm time. ` +
+                  `You will receive this alert every hour until the alarm is turned off.<br><br>` +
+                  `Contact info:<br>${user.email}<br><br>If you verified that ${user.name} is ok, ` +
+                  `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off alarm.<br><br>` +
+                  `---------------------- ${user.name}'s message ----------------------<br><br>${user.message}`
+                };
+                sendEmail(emailData);
+                console.log(`send email for user ${user.email}, to ${contact.email}`);
+              }
+            }); // end non-coummity
+          }
+
+          // community
+          else{
+            User
+            .find({'community': true})
+            .exec()
+            .then((communityMembers) => {
+              communityMembers.forEach((member) => {
+                if(member.email != user.email){ // don't send email to self
+                  let emailData = {
+                    from: '"Friend-Alert" <friend.alert.app@gmail.com>',
+                    to: member.email,
+                    subject: `Friend-Alert community alert for ${user.name}!`,
+                    html: `Dear ${member.name},<br><br>Community member ${user.name} ` +
+                    `is late for his/her alarm. ` +
+                    `You will receive this alert every hour until the alarm is turned off.<br><br>` +
+                    `Contact info:<br>${user.email}<br><br>If you verified that ${user.name} is ok, ` +
+                    `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off alarm.<br><br>` +
+                    `---------------------- ${user.name}'s message ----------------------<br><br>${user.message}`
+                  };
+                  sendEmail(emailData);
+                  console.log(`send email for user ${user.email}, to ${member.email}`);
+                }
+              });
+            })
+          }
+          // end community
 
           // setting alarmTime to another hour
           let alarmTime = new Date(Date.parse(new Date()) + (1 * 60 * 60 * 1000));
@@ -280,11 +306,6 @@ function runServer(databaseUrl=DATABASE_URL, port=PORT) {
       }
       server = app.listen(port, () => {
         console.log(`Your app is listening on port ${port}`);
-        // sendEmail({
-        //   from: 'friend.alert.app@gmail.com',
-        //   to: 'anh.ht.le@gmail.com',
-        //   subject: 'email on server start up'
-        // });
         resolve();
       })
       .on('error', err => {

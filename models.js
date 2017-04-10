@@ -13,7 +13,7 @@ const userSchema = mongoose.Schema({
         opt_out: {type: Boolean, default: false}
     }],
     community: {type: Boolean, default: false},
-    startTime: {type: Number},
+    message: {type: String},
     alarmTime: {type: Number},
     alertOn: {type: Boolean, default: false}
 });
