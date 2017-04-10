@@ -228,18 +228,7 @@ const job = new cronJob('*/1 * * * *', () => {
       console.log(users);
       users.forEach((user) => {
         if(currentTime <= user.alarmTime){
-
-          // setting alarm to another hour
-          let alarmTime = new Date(Date.parse(new Date()) + (1 * 60 * 60 * 1000));
-          alarmTime = Math.floor(alarmTime / 1000 / 60);
-          let query = {'alarmTime': alarmTime};
-
-          User
-          .findOneAndUpdate({email: user.email}, {$set: query}, {new: true})
-          .exec();
-
-          // non-community
-          //if(user.community === false){
+          
           user.contacts.forEach((contact) => {
             if(contact.verified === true){
               let emailData = {
@@ -256,38 +245,17 @@ const job = new cronJob('*/1 * * * *', () => {
               sendEmail(emailData);
               console.log(`send email for user ${user.email}, to ${contact.email}`);
             }
-          }); // end non-coummity
-          //}
 
-          // community
-          // if(user.community === true){
-          //   User
-          //   .find({'community': true})
-          //   .exec()
-          //   .then((communityMembers) => {
-          //     communityMembers.forEach((member) => {
-          //       if(member.email != user.email){ // don't send email to self
-          //         let emailData = {
-          //           from: '"Friend-Alert" <friend.alert.app@gmail.com>',
-          //           to: member.email,
-          //           subject: `Friend-Alert community alert for ${user.name}!`,
-          //           html: `Dear ${member.name},<br><br>Community member ${user.name} ` +
-          //           `is late for his/her alarm. ` +
-          //           `You will receive this alert every hour until the alarm is turned off.<br><br>` +
-          //           `Contact info:<br>${user.email}<br><br>If you verified that ${user.name} is ok, ` +
-          //           `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off alarm.<br><br>` +
-          //           `---------------------- ${user.name}'s message ----------------------<br><br>${user.message}`
-          //         };
-          //         sendEmail(emailData);
-          //         console.log(`send email for user ${user.email}, to ${member.email}`);
-          //       }
-          //     });
-          //   })
-          // }
-          // end community
+          // setting alarm to another hour
+          let alarmTime = new Date(Date.parse(new Date()) + (1 * 60 * 60 * 1000));
+          alarmTime = Math.floor(alarmTime / 1000 / 60);
+          let query = {'alarmTime': alarmTime};
 
-        } // end if
-      }); // end forEach
+          User
+          .findOneAndUpdate({email: user.email}, {$set: query}, {new: true})
+          .exec();
+        }); // end forEach
+      }
     })
     .catch(err => {
       console.error(err);
