@@ -123,6 +123,9 @@ $('#alarm-on-button').on('click', function(event) {
     $('#alarm-off-button').removeClass('hidden');
     let hour = Number($('.hour').val());
     let min = Number($('.min').val());
+    if(hour === 0 && min === 0){
+        return alert('enter hour and/or min');
+    }
     STATE.message = $('textarea').val();
     let query = {hour: hour, min: min, message: STATE.message, alertOn: true};
     let url = `https://friend-alert.herokuapp.com/user/time/${localStorage.email}`;
