@@ -79,7 +79,6 @@ app.post('/user', (req, res) => {
         email: req.body.email,
         password: req.body.password,
         name: req.body.name || '',
-        phone: req.body.phone || 0,
         community: false,
         message: '',
         alarmTime: 0,
@@ -107,7 +106,7 @@ app.delete('/user/:email', (req, res) => {
       console.log("can't find user to delete");
       return res.status(400).json({message: "can't find user to delete"});
     }
-    return res.status(200).json({message: `deleted user ${deletedUser.email}`});
+    return res.status(204).json({message: `deleted user ${deletedUser.email}`});
   })
   .catch(err => {
     console.error(err);
@@ -236,7 +235,7 @@ const job = new cronJob('*/1 * * * *', () => {
     .then(users => {
       console.log(users);
       users.forEach((user) => {
-        if(currentTime <= user.alarmTime){
+        if(currentTime === user.alarmTime){
 
           // setting alarm to another hour
           let alarmTime = new Date(Date.parse(new Date()) + (1 * 60 * 60 * 1000));
