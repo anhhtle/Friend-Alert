@@ -295,18 +295,18 @@ const job = new cronJob('*/1 * * * *', () => {
             } // end community
           })
           .catch(err => res.status(500).json({message: 'something went wrong'}));
-        }
-      })
-      // send email to user
-      sendEmail({
-        from: '"Friend-Alert" <friend.alert.app@gmail.com>',
-        to: member.email,
-        subject: `Friend-Alert Alarm Sent`,
-        html: `Dear ${user.name}<br><br>Your alarm time is up and alerts have been sent out. ` +
-        `Alerts will be send every hour until the alarm is turned off either by you or your contacts/community members.<br><br>` +
-        `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off the alarm.<br><br>` +
-        `----------------------------  Your message ---------------------------- <br><br>${user.message}`
-      });
+          // send email to user
+          sendEmail({
+            from: '"Friend-Alert" <friend.alert.app@gmail.com>',
+            to: user.email,
+            subject: `Friend-Alert Alarm Sent`,
+            html: `Dear ${user.name}<br><br>Your alarm time is up and alerts have been sent out. ` +
+            `Alerts will be send every hour until the alarm is turned off either by you or your contacts/community members.<br><br>` +
+            `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off the alarm.<br><br>` +
+            `----------------------------  Your message ---------------------------- <br><br>${user.message}`
+          });
+        } // end if(currentTime === alarmTime)
+      }); // end users.forEach((user))
     })
     .catch(err => res.status(500).json({message: 'something went wrong'}));
 });
