@@ -114,6 +114,18 @@ app.delete('/user/:email', (req, res) => {
   });
 }); // end DELETE user
 
+// Turn off alarm
+app.get('/user/time/:email', (req, res) => {
+  console.log('turning off alarm');
+  let query = {'alarmTime': 0, 'message': '', 'alertOn': false};
+
+  User
+  .findByIdAndUpdate({email: req.params.email}, {$set: query}, {new: true})
+  .exec()
+  .then(updated => res.status(201).json(updated))
+  .catch(err => res.status(500).json({message: 'something went wrong'}));
+});
+
 // UPDATE a user
 app.put('/user/:email', (req, res) => {
   let updateUser = {};
@@ -207,17 +219,6 @@ app.put('/user/time/:email', (req, res) => {
   .catch(err => res.status(500).json({message: 'something went wrong'}));
 });
 
-// Turn off alarm
-app.get('/user/time/:email', (req, res) => {
-  console.log('turning off alarm');
-  let query = {'alarmTime': 0, 'message': '', 'alertOn': false};
-
-  User
-  .findByIdAndUpdate({email: req.params.email}, {$set: query}, {new: true})
-  .exec()
-  .then(updated => res.status(201).json(updated))
-  .catch(err => res.status(500).json({message: 'something went wrong'}));
-});
 
 // catch all
 app.get('*', (req, res) => {
@@ -327,3 +328,5 @@ if (require.main === module) {
 job.start();
 
 module.exports = {app, runServer, closeServer};
+
+//bcrypt.sync
