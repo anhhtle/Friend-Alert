@@ -140,7 +140,7 @@ button {
 
 /***************** section three ******************/
 .grid3 {
-    display: initial;
+    display: block;
 }
 
 .three {
