@@ -99,7 +99,6 @@ function renderAlarm(){
 
     $('.hour').val(hour);
     $('.min').val(min);
-    $('textarea').val(STATE.message);
 
     if(STATE.alertOn === true){
         $('#alarm-on-button').addClass('hidden');
@@ -149,6 +148,7 @@ $('#alarm-off-button').on('click', function(event) {
     let url = `https://friend-alert.herokuapp.com/user/time/${localStorage.email}`;
     $('.hour').prop('disabled', false);
     $('.min').prop('disabled', false);
+    $('textarea').prop('disabled', false);
     putAJAX(url, query);
 })
 
@@ -270,5 +270,6 @@ $(function() {
     setTimeout(() => {
         renderContacts();
         renderAccount();
+        $('textarea').val(STATE.message);
     }, 2000);
 });

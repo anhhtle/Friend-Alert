@@ -133,9 +133,9 @@ app.put('/user/:email', (req, res) => {
       if(req.body.contacts.length > user.contacts.length){
         let newContact = req.body.contacts[req.body.contacts.length - 1];
         let emailData = {
-          from: 'friend.alert.app@gmail.com',
+          from: '"Friend-Alert" <friend.alert.app@gmail.com>',
           to: newContact.email,
-          subject: `Friends Alert from ${user.name}`,
+          subject: `Friend-Alert contact verification from ${user.name}`,
           html: `Dear ${newContact.name},<br><br>${user.name} ` +
           `signed you up as an emergency contact on Friends Alert. ` +
           `As an emergy contact, you will be alerted by email when ` +
@@ -176,7 +176,11 @@ app.get('/user/:email/:contact', (req, res) => {
     User
     .findOneAndUpdate({'email': req.params.email}, {$set: query}, {new: true})
     .exec()
-    .then(() => res.sendFile( __dirname + 'verified.html' ))
+    .then(() => {
+      console.log('DIRNAME');
+      console.log(__dirname);
+      res.sendFile('https://friend-alert.herokuapp.com/verified.html');
+    })
     .catch(err => res.status(500).json({message: 'something went wrong'}));
   });
 })
