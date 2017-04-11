@@ -179,7 +179,8 @@ app.get('/user/:email/:contact', (req, res) => {
     .then(() => {
       console.log('DIRNAME');
       console.log(__dirname);
-      res.sendFile('https://friend-alert.herokuapp.com/verified.html');
+      //res.sendFile(__dirname + '/public/verified.html');
+      res.redirect('https://friend-alert.herokuapp.com/verified.html');
     })
     .catch(err => res.status(500).json({message: 'something went wrong'}));
   });
