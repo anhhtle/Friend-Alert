@@ -1,0 +1,124 @@
+@media only screen and (max-width: 830px){
+    .one-text, .two-text, .three-text {
+        font-size: 20pt;
+    }
+
+    .container {
+        height: 550px;
+    }
+
+    .sign-in-container {
+        width: 300px;
+        padding: 25px;
+    }
+
+    .sign-in, button {
+        height: 35px;
+    }
+}
+
+@media only screen and (max-width: 650px){
+    .one-text, .two-text, .three-text {
+        font-size: 17pt;
+    }
+
+    .container {
+        height: 450px;
+    }
+
+    .sign-in-container {
+        width: 250px;
+        padding: 20px;
+    }
+
+    .sign-in, button {
+        height: 30px;
+    }
+}
+
+@media only screen and (max-width: 400px){
+
+/************* section one *************/
+    .one-text, .two-text, .three-text {
+        display: block;
+        position: absolute;
+        text-align: center;
+        top: 50px;
+        width: 100%;
+        font-size: 15pt;
+    }
+
+    .one {
+        padding-top: 15px;
+        height: 450px;
+        background:
+            linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.8),
+                rgba(0, 0, 0, 0.1)
+            ), url('../images/header.jpeg');
+        background-size: cover;
+    }
+
+    .logo {
+        height: 35px;
+        width: 180px;
+        font-size: 15pt;
+    }
+
+    .sign-in-container {
+        display: block;
+        top: 160px;
+        right: 55px;
+        margin: 0 auto;
+        width: 240px;
+        padding: 20px;
+    }
+
+    .sign-in-message {
+        margin-bottom: 10px;
+    }
+
+    .sign-in, button {
+        height: 22px;
+        font-size: 11pt;
+    }
+
+    .sign-in {
+        margin-bottom: 15px;
+    }
+
+    .toggle{
+        margin-bottom: 0;
+    }
+
+/****** section two **********/
+
+    .two{
+        padding-top: 10px;
+        height: 400px;
+    }
+
+    .two-text {
+        top: 20px;
+    }
+
+    .two-image {
+        width: 75%;
+        top: 160px;
+        right: 45px;
+    }
+
+/*********** section three *******/
+
+    .three {
+        height: 280px;
+        padding-top: 20px;
+    }
+
+    .three-text {
+        position: relative;
+        margin: 0 0 15px;
+    }
+
+}
