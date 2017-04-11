@@ -99,6 +99,7 @@ function renderAlarm(){
 
     $('.hour').val(hour);
     $('.min').val(min);
+    $('textarea').val(STATE.message);
 
     if(STATE.alertOn === true){
         $('#alarm-on-button').addClass('hidden');
