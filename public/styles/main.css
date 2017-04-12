@@ -143,6 +143,11 @@ textarea {
 
 /************************ Contacts ************************/
 
+.contact-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
 .contact-form {
     padding-bottom: 20px;
     border-bottom: 1px solid #AAACB0;

@@ -272,7 +272,7 @@ const job = new cronJob('*/1 * * * *', () => {
                     `You will receive this alert every hour until the alarm is turned off.<br><br>` +
                     `Contact info:<br>${user.email}<br><br>If you verified that ${user.name} is ok, ` +
                     `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off the alarm.<br><br>` +
-                    `---------------------------- ${user.name}'s message ---------------------------- <br><br>${user.message}`
+                    `-------------------------- ${user.name}'s message -------------------------- <br><br>${user.message}`
                   };
                   sendEmail(emailData);
                   console.log(`send email for user ${user.email}, to ${contact.email}`);
@@ -294,7 +294,7 @@ const job = new cronJob('*/1 * * * *', () => {
                       html: `Dear ${member.name}<br><br>Friend-Alert community member ${user.name} is late for his/her alarm. ` +
                       `You will receive this alert every hour until the alarm is turned off.<br><br>If you verified that ${user.name} is ok, ` +
                       `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off the alarm.<br><br>` +
-                      `----------------------------  ${user.name}'s message ---------------------------- <br><br>${user.message}`
+                      `--------------------------  ${user.name}'s message -------------------------- <br><br>${user.message}`
                     });
                   }
                 });
@@ -312,7 +312,7 @@ const job = new cronJob('*/1 * * * *', () => {
             html: `Dear ${user.name}<br><br>Your alarm time is up and alerts have been sent out. ` +
             `Alerts will be send every hour until the alarm is turned off either by you or your contacts/community members.<br><br>` +
             `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off the alarm.<br><br>` +
-            `----------------------------  Your message ---------------------------- <br><br>${user.message}`
+            `--------------------------  Your message -------------------------- <br><br>${user.message}`
           });
         } // end if(currentTime === alarmTime)
       }); // end users.forEach((user))
