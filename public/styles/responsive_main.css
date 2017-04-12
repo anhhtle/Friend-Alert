@@ -1,0 +1,74 @@
+@media only screen and (max-width: 480px) {
+
+    header {
+        padding-top: 0;
+        height: 80px;
+        margin-bottom: 40px;
+    }
+
+    .logo {
+        margin: 5px auto;
+    }
+
+    .navigation-ul {
+        width: 100%;
+    }
+
+    .navigation-ul li {
+        height: 27px;
+        width: 33.3%;
+        line-height: 1.8em;
+    }
+
+    main {
+        padding: 0 7px 0 7px;
+    }
+
+    textarea {
+        width: 95%;
+    }
+
+    /****************** contacts ***************/
+
+    h2 {
+        font-size: 15pt;
+    } 
+
+    h3 {
+        font-size: 12pt;
+    }
+
+    .contact-input {
+        height: 30px;
+        width: 300px;
+    }
+
+    .contact-button {
+        height: 30px;
+    }
+
+    .contact-card {
+        width: 70%;
+    }
+
+    .contact-card h5 {
+        margin: 10px auto 10px;
+    }
+
+    /******************** account *******************/
+
+    .account-input {
+        height: 30px;
+        width: 95%;
+        margin: 0;
+    }
+
+    .community-container {
+        margin: 10px auto 10px;
+    }
+
+    .account-button {
+        height: 30px;
+        margin: 0 auto 5px;
+    }
+}

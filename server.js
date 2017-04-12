@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cronJob = require('cron').CronJob;
 const moment = require('moment');
+const bcrypt = require('bcrypt-nodejs');
 const {sendEmail} = require('./emailer/emailer');
 const {DATABASE_URL, PORT} = require('./router/config');
 const {User} = require('./models');
@@ -74,10 +75,14 @@ app.post('/user', (req, res) => {
         console.log('email is already registered');
         return res.status(422).send('email is already registered');
       }
+
+      // hash password
+      let hash = bcrypt.hashSync(req.body.password);
+
       // create new user
       const newUser = {
         email: req.body.email,
-        password: req.body.password,
+        password: hash,
         name: req.body.name || '',
         community: false,
         message: '',
@@ -137,6 +142,10 @@ app.put('/user/:email', (req, res) => {
       updateUser[field] = req.body[field];
     }
   });
+
+  // hash password
+  if(req.body.password.length > 0);
+    updateUser[password] = bcrypt.hashSync(updateUser[password]);
 
   // If adding new contact, send sign-up email to contact
   if(req.body.contacts){

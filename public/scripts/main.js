@@ -44,7 +44,7 @@ function getAJAX(){
             renderAlarm();
         },
         error: function(err){
-            alert(err);
+            console.error(err);
         }
     });
 }; // end getAJAX
@@ -61,7 +61,7 @@ function putAJAX(url, query){
             console.log(data);
         },
         error: function(err){
-            alert(err.responseText);
+            console.log(err.responseText);
         }
     });
 };
@@ -99,7 +99,6 @@ function renderAlarm(){
 
     $('.hour').val(hour);
     $('.min').val(min);
-    $('textarea').val(STATE.message);
 
     if(STATE.alertOn === true){
         $('#alarm-on-button').addClass('hidden');
@@ -121,14 +120,14 @@ function renderAlarm(){
 
 $('#alarm-on-button').on('click', function(event) {
     event.preventDefault();
-    $(this).addClass('hidden');
-    $('#alarm-off-button').removeClass('hidden');
     let hour = Number($('.hour').val());
     let min = Number($('.min').val());
     if(hour === 0 && min === 0)
         return alert('enter hour and/or min');
-    if(hour < 0 || min <= 0)
+    if(hour < 0 || min < 0)
         return alert('enter positive numbers');
+    $(this).addClass('hidden');
+    $('#alarm-off-button').removeClass('hidden');
     STATE.message = $('textarea').val();
     let query = {hour: hour, min: min, message: STATE.message, alertOn: true};
     let url = `https://friend-alert.herokuapp.com/user/time/${localStorage.email}`;
