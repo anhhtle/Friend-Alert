@@ -144,7 +144,7 @@ app.put('/user/:email', (req, res) => {
   });
 
   // hash password
-  if(req.body.password.length > 0);
+  if('password' in req.body)
     updateUser[password] = bcrypt.hashSync(updateUser[password]);
 
   // If adding new contact, send sign-up email to contact

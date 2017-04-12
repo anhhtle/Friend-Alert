@@ -32,7 +32,6 @@ describe('Users', function() {
                 res.body.should.include.keys('__v','_id', 'email', 'password', 'name', 'community', 'alertOn', 'alarmTime', 'message', 'contacts');
                 res.body.contacts.should.be.a('array');
                 res.body.email.should.equal(newUser.email);
-                res.body.password.should.equal(newUser.password);
                 res.body.name.should.equal(newUser.name);
             })
     }); // end POST
