@@ -77,12 +77,12 @@ app.post('/user', (req, res) => {
       }
 
       // hash password
-      let hash = bcrypt.hashSync(req.body.password);
+      // let hash = bcrypt.hashSync(req.body.password);
 
       // create new user
       const newUser = {
         email: req.body.email,
-        password: hash,
+        password: req.body.password,
         name: req.body.name || '',
         community: false,
         message: '',
@@ -144,8 +144,8 @@ app.put('/user/:email', (req, res) => {
   });
 
   // hash password
-  if('password' in req.body)
-    updateUser[password] = bcrypt.hashSync(updateUser[password]);
+  // if('password' in req.body)
+  //   updateUser[password] = bcrypt.hashSync(updateUser[password]);
 
   // If adding new contact, send sign-up email to contact
   if(req.body.contacts){
