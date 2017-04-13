@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt-nodejs');
 const {User} = require('../models');
 const {sendEmail} = require('../emailer/emailer');
 router.use(bodyParser.json());
@@ -36,6 +37,20 @@ router.get('/:email', (req, res) => {
     });
 }) // end GET specific users
 
+// Check user password
+router.get('/:email/:password', (req, res) => {
+    User
+        .findOne({email: req.params.email})
+        .exec()
+        .then(user => {
+            if(bcrypt.compareSync(req.params.password, user.password) === false ){
+                user.password = false;
+            }
+            return res.status(200).json(user);
+        })
+        .catch(err => res.status(500).json({message: 'something went wrong'}));
+});
+
 // POST new user
 router.post('/', (req, res) => {
   // check for required fields
@@ -61,13 +76,13 @@ router.post('/', (req, res) => {
         return res.status(422).send('email is already registered');
       }
 
-      // hash password
-      // let hash = bcrypt.hashSync(req.body.password);
+      //hash password
+      let hash = bcrypt.hashSync(req.body.password);
 
       // create new user
       const newUser = {
         email: req.body.email,
-        password: req.body.password,
+        password: hash,
         name: req.body.name || '',
         community: false,
         message: '',
@@ -127,8 +142,8 @@ router.put('/:email', (req, res) => {
   });
 
   // hash password
-  // if('password' in req.body)
-  //   updateUser[password] = bcrypt.hashSync(updateUser[password]);
+  if('password' in req.body)
+     updateUser[password] = bcrypt.hashSync(updateUser[password]);
 
   // If adding new contact, send sign-up email to contact
   if(req.body.contacts){

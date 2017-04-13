@@ -14,7 +14,7 @@ function getAJAX(url){
         dataType: 'json',
         success: function(data){
             if(data.length === 1){
-                if(STATE.userPassword !== data[0].password){
+                if(data[0].password === false){
                     $('.sign-in-message').removeClass('hidden');
                     $('.sign-in-message').text('Incorrect password');
                     return;
@@ -80,7 +80,7 @@ $('.sign-in-button').on('click', (event) => {
     if(validateInput()) {
         STATE.userEmail = $('.email').val();
         STATE.userPassword = $('.password').val();
-        let url = `https://friend-alert.herokuapp.com/user/${STATE.userEmail}`;
+        let url = `https://friend-alert.herokuapp.com/user/${STATE.userEmail}/${STATE.userPassword}`;
         getAJAX(url);
     }
 });

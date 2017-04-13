@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cronJob = require('cron').CronJob;
-const moment = require('moment');
 const bcrypt = require('bcrypt-nodejs');
 const {sendEmail} = require('./emailer/emailer');
 const {DATABASE_URL, PORT} = require('./router/config');
@@ -20,213 +19,8 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 mongoose.Promise = global.Promise;
 
-// ******************* API ************************
-
+// router
 app.use('/user', userRouter);
-
-// GET all users
-// app.get('/user/', (req, res) => {
-//   User
-//     .find()
-//     .exec()
-//     .then(users => {
-//       console.log(users);
-//       res.status(200).json(users);
-//     })
-//     .catch(err => {
-//       console.error(err);
-//       res.status(500).json({error: 'something went wrong'});
-//     });
-// }) // end GET all users
-
-// GET specific user
-// app.get('/user/:email', (req, res) => {
-//   User
-//     .find({email: req.params.email})
-//     .exec()
-//     .then(user => {
-//       console.log(user);
-//       return res.json(user);
-//     })
-//     .catch(err => {
-//       console.error(err);
-//       res.status(500).json({error: 'something went wrong'});
-//     });
-// }) // end GET specific users
-
-// POST new user
-// app.post('/user', (req, res) => {
-//   // check for required fields
-//   console.log(req.body);
-//   const requiredFields = ['email', 'password'];
-//   for(let i = 0; i < requiredFields.length; i++){
-//     const field = requiredFields[i];
-//     if(!(field in req.body)){
-//       console.log(req.body);
-//       const message = `missing '${field}' in request body`;
-//       console.error(message);
-//       return res.status(400).send(message);
-//     }
-//   } // end for
-//   // check to see if email is registered already
-//   return User
-//     .find({email: req.body.email})
-//     .count()
-//     .exec()
-//     .then(count => {
-//       if(count > 0){
-//         console.log('email is already registered');
-//         return res.status(422).send('email is already registered');
-//       }
-
-//       // hash password
-//       // let hash = bcrypt.hashSync(req.body.password);
-
-//       // create new user
-//       const newUser = {
-//         email: req.body.email,
-//         password: req.body.password,
-//         name: req.body.name || '',
-//         community: false,
-//         message: '',
-//         alarmTime: 0,
-//         alertOn: false
-//       };
-//       return User.create(newUser);
-//     })
-//     .then(user => {
-//       return res.status(201).json(user);
-//     })
-//     .catch(err => {
-//       console.error(err);
-//       res.status(500).json({error: 'something went wrong'});
-//     });
-
-// }); // end POST
-
-// DELETE a user
-// app.delete('/user/:email', (req, res) => {
-//   User
-//   .findOneAndRemove({email: req.params.email})
-//   .exec()
-//   .then(deletedUser => {
-//     if(deletedUser === null){
-//       console.log("can't find user to delete");
-//       return res.status(400).json({message: "can't find user to delete"});
-//     }
-//     return res.status(204).json({message: `deleted user ${deletedUser.email}`});
-//   })
-//   .catch(err => {
-//     console.error(err);
-//     res.status(500).json({message: 'something went wrong'});
-//   });
-// }); // end DELETE user
-
-
-// Turn off alarm
-// app.get('/user/time/:email', (req, res) => {
-//   console.log('turning off alarm');
-//   let query = {'alarmTime': 0, 'message': '', 'alertOn': false};
-
-//   User
-//   .findOneAndUpdate({email: req.params.email}, {$set: query}, {new: true})
-//   .exec()
-//   .then(updated => res.redirect('https://friend-alert.herokuapp.com/alarm-off.html'))
-//   .catch(err => res.status(500).json({message: 'something went wrong'}));
-// });
-
-
-// UPDATE a user
-// app.put('/user/:email', (req, res) => {
-//   let updateUser = {};
-//   const updateableFields = ['email', 'password', 'name', 'community', 'message', 'alarmTime', 'alertOn', 'contacts'];
-//   updateableFields.forEach(field => {
-//     if(field in req.body){
-//       updateUser[field] = req.body[field];
-//     }
-//   });
-
-//   // hash password
-//   // if('password' in req.body)
-//   //   updateUser[password] = bcrypt.hashSync(updateUser[password]);
-
-//   // If adding new contact, send sign-up email to contact
-//   if(req.body.contacts){
-//     User
-//     .findOne({'email': req.params.email})
-//     .exec()
-//     .then((user) => {
-//       if(req.body.contacts.length > user.contacts.length){
-//         let newContact = req.body.contacts[req.body.contacts.length - 1];
-//         let emailData = {
-//           from: '"Friend-Alert" <friend.alert.app@gmail.com>',
-//           to: newContact.email,
-//           subject: `Friend-Alert contact verification from ${user.name}`,
-//           html: `Dear ${newContact.name},<br><br>${user.name} ` +
-//           `signed you up as an emergency contact on Friend-Alert. ` +
-//           `As an emergy contact, you will be alerted by email when ` +
-//           `${user.name} is late for his/her user set alarm.<br><br>` +
-//           `If you agree to be a Friend-Alert emergency contact, click ` +
-//           `<a href="https://friend-alert.herokuapp.com/user/${req.params.email}/${newContact.email}" target="_blank">here</a>.`
-//         };
-//         sendEmail(emailData);
-//       }
-//     }); // end then
-//   } // end sending email to new contact
-
-//   User
-//   .findOneAndUpdate({email: req.params.email}, {$set: updateUser}, {new: true})
-//   .exec()
-//   .then(updatedPost => res.status(201).json(updatedPost))
-//   .catch(err => res.status(500).json({message: 'something went wrong'}));
-  
-// }) // end UPDATE user
-
-//************* contact management ***************/
-
-//contact self-verify
-// app.get('/user/:email/:contact', (req, res) => {
-//   //find user's contacts
-//   let contacts = [];
-//   User
-//   .findOne({'email': req.params.email})
-//   .exec()
-//   .then(user => {
-//     contacts = user.contacts;
-//     contacts.forEach((contact) => {
-//       if(contact.email === req.params.contact){
-//         contact.verified = true;
-//       }
-//     });
-//     let query = {'contacts': contacts};
-//     User
-//     .findOneAndUpdate({'email': req.params.email}, {$set: query}, {new: true})
-//     .exec()
-//     .then(() => res.redirect('https://friend-alert.herokuapp.com/verified.html'))
-//     .catch(err => res.status(500).json({message: 'something went wrong'}));
-//   });
-// })
-
-// //****************** timer ************************/
-
-// // Set timer
-// app.put('/user/time/:email', (req, res) => {
-
-//   let alarmTime = new Date(Date.parse(new Date()) + (req.body.hour * 60 * 60 * 1000) + (req.body.min * 60 * 1000));
-//   alarmTime = Math.floor(alarmTime / 1000 / 60);
-
-//   if(req.body.hour === 0 && req.body.min === 0){
-//     alarmTime = 0;
-//   }
-
-//   let query = {'alarmTime': alarmTime, 'message': req.body.message , 'alertOn': req.body.alertOn};
-
-//   User
-//   .findOneAndUpdate({email: req.params.email}, {$set: query}, {new: true})
-//   .exec()
-//   .then(updated => res.status(201).json(updated))
-//   .catch(err => res.status(500).json({message: 'something went wrong'}));
-// });
 
 
 // catch all
@@ -239,7 +33,6 @@ app.get('*', (req, res) => {
 // pattern *(min) *(hr) *(d) *(m) *(d of w)
 
 const job = new cronJob('*/1 * * * *', () => {
-  //const currentTime = moment().format('HH:mm');
   let currentTime = Date.parse(new Date());
   currentTime = Math.floor(currentTime / 1000 / 60);
   console.log(`now: ${currentTime}`);
@@ -266,7 +59,7 @@ const job = new cronJob('*/1 * * * *', () => {
             if(user.community === false){
               user.contacts.forEach((contact) => {
                 if(contact.verified === true){
-                  let emailData = {
+                  sendEmail({
                     from: '"Friend-Alert" <friend.alert.app@gmail.com>',
                     to: contact.email,
                     subject: `Friend-Alert alarm for ${user.name}`,
@@ -275,14 +68,15 @@ const job = new cronJob('*/1 * * * *', () => {
                     `You will receive this alert every hour until the alarm is turned off.<br><br>` +
                     `Contact info:<br>${user.email}<br><br>If you verified that ${user.name} is ok, ` +
                     `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off the alarm.<br><br>` +
-                    `-------------------------- ${user.name}'s message -------------------------- <br><br>${user.message}`
-                  };
-                  sendEmail(emailData);
+                    `------------------------- ${user.name}'s message ------------------------- <br><br>${user.message}`
+                  });
                   console.log(`send email for user ${user.email}, to ${contact.email}`);
                 }
               });
               res.send('success');
             } // end non-community
+            
+            // community 
             if(user.community === true){
               User
               .find({community: true})
@@ -297,7 +91,7 @@ const job = new cronJob('*/1 * * * *', () => {
                       html: `Dear ${member.name}<br><br>Friend-Alert community member ${user.name} is late for his/her alarm. ` +
                       `You will receive this alert every hour until the alarm is turned off.<br><br>If you verified that ${user.name} is ok, ` +
                       `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off the alarm.<br><br>` +
-                      `--------------------------  ${user.name}'s message -------------------------- <br><br>${user.message}`
+                      `-------------------------  ${user.name}'s message ------------------------- <br><br>${user.message}`
                     });
                   }
                 });
@@ -315,7 +109,7 @@ const job = new cronJob('*/1 * * * *', () => {
             html: `Dear ${user.name}<br><br>Your alarm time is up and alerts have been sent out. ` +
             `Alerts will be send every hour until the alarm is turned off either by you or your contacts/community members.<br><br>` +
             `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off the alarm.<br><br>` +
-            `--------------------------  Your message -------------------------- <br><br>${user.message}`
+            `-------------------------- Your message ------------------------ <br><br>${user.message}`
           });
         } // end if(currentTime === alarmTime)
       }); // end users.forEach((user))
