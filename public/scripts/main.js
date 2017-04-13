@@ -246,8 +246,9 @@ $('#account-reset').on('click', (event) => {
 $('#account-submit').on('click', (event) => {
     event.preventDefault();
     let url = `https://friend-alert.herokuapp.com/user/${localStorage.email}`
+    if(STATE.password != $('#account-password').val())
+        STATE.password = $('#account-password').val();
     STATE.email = $('#account-email').val();
-    STATE.password = $('#account-password').val();
     STATE.name = $('#account-name').val();
     STATE.community = $('#account-community').prop('checked');
     localStorage.email = STATE.email;

@@ -43,14 +43,13 @@ router.get('/:email/:password', (req, res) => {
         .findOne({email: req.params.email})
         .exec()
         .then(user => {
-            console.log(user);
+            console.log('then')
             if(!bcrypt.compareSync(req.params.password, user.password)){
-                console.log('so far so good');
-                return res.status(200).json([{password: false}]);
+                return res.status(200).json([{'password': false}]);
             }
-            return res.status(200).json([{password: true}]);
+            return res.status(200).json([{'password': true}]);
         })
-        .catch(err => res.status(500).json({message: 'something went wrong'}));
+        .catch(err => res.status(200).json([{}]));
 });
 
 // POST new user

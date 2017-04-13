@@ -14,7 +14,7 @@ function getAJAX(url){
         dataType: 'json',
         success: function(data){
             if(data.length === 1){
-                if(data[0][password] === false){
+                if(data[0].password === false){
                     $('.sign-in-message').removeClass('hidden');
                     $('.sign-in-message').text('Incorrect password');
                     return;
