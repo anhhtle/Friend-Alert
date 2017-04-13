@@ -39,11 +39,11 @@ router.get('/:email', (req, res) => {
 
 // Check user password
 router.get('/:email/:password', (req, res) => {
-    console.log('checking password');
     User
         .findOne({email: req.params.email})
         .exec()
         .then(user => {
+            console.log(user);
             if(!bcrypt.compareSync(req.params.password, user.password)){
                 console.log('so far so good');
                 return res.status(200).json([{password: false}]);
