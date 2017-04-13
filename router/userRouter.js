@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const {User} = require('../models');
+const {sendEmail} = require('../emailer/emailer');
 router.use(bodyParser.json());
 
 // GET all users
