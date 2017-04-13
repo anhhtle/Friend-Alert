@@ -2,13 +2,10 @@ let STATE = {
     email: '',
     password: '',
     name: '',
-    phone: 0,
     contacts: [{
         name: '',
         email: '',
-        phone: 0,
         verified: false,
-        opt_out: false
     }],
     community: false,
     message: '',
@@ -126,6 +123,16 @@ $('#alarm-on-button').on('click', function(event) {
         return alert('enter hour and/or min');
     if(hour < 0 || min < 0)
         return alert('enter positive numbers');
+    if(STATE.community === false){
+        let haveVerified = false;
+        STATE.contacts.forEach((contact) => {
+            if(contact.verified === true){
+                haveVerified = true;
+            }
+        });
+        if(!haveVerified)
+            return alert(`You do not have any verified contact. Sign up for community to send alerts to other community members`);
+    }
     $(this).addClass('hidden');
     $('#alarm-off-button').removeClass('hidden');
     STATE.message = $('textarea').val();

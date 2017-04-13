@@ -7,7 +7,6 @@ const userSchema = mongoose.Schema({
     contacts: [{
         name: String,
         email: String,
-        phone: Number,
         verified: {type: Boolean, default: false},
     }],
     community: {type: Boolean, default: false},
