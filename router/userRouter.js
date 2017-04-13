@@ -38,19 +38,19 @@ router.get('/:email', (req, res) => {
 }) // end GET specific users
 
 // Check user password
-router.get('/:email/:password', (req, res) => {
-    User
-        .findOne({email: req.params.email})
-        .exec()
-        .then(user => {
-            console.log('then')
-            if(!bcrypt.compareSync(req.params.password, user.password)){
-                return res.status(200).json([{'password': false}]);
-            }
-            return res.status(200).json([{'password': true}]);
-        })
-        .catch(err => res.status(200).json([{}]));
-});
+// router.get('/:email/:password', (req, res) => {
+//     User
+//         .findOne({email: req.params.email})
+//         .exec()
+//         .then(user => {
+//             console.log('then')
+//             if(!bcrypt.compareSync(req.params.password, user.password)){
+//                 return res.status(200).json([{'password': false}]);
+//             }
+//             return res.status(200).json([{'password': true}]);
+//         })
+//         .catch(err => res.status(200).json([]));
+// });
 
 // POST new user
 router.post('/', (req, res) => {
@@ -78,12 +78,12 @@ router.post('/', (req, res) => {
       }
 
       //hash password
-      let hash = bcrypt.hashSync(req.body.password);
+      //let hash = bcrypt.hashSync(req.body.password);
 
       // create new user
       const newUser = {
         email: req.body.email,
-        password: hash,
+        password: req.body.password,
         name: req.body.name || '',
         community: false,
         message: '',
@@ -143,8 +143,8 @@ router.put('/:email', (req, res) => {
   });
 
   // hash password
-  if('password' in req.body)
-     updateUser[password] = bcrypt.hashSync(updateUser[password]);
+  //if('password' in req.body)
+     //updateUser[password] = bcrypt.hashSync(updateUser[password]);
 
   // If adding new contact, send sign-up email to contact
   if(req.body.contacts){

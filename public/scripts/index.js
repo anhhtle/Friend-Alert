@@ -14,15 +14,17 @@ function getAJAX(url){
         dataType: 'json',
         success: function(data){
             if(data.length === 1){
-                if(data[0].password === false){
+                if(data[0].password === STATE.userPassword){
+                    // navigate to main page
+                    $('.sign-in-message').addClass('hidden');
+                    localStorage.setItem('email', STATE.userEmail);
+                    return window.location.href = 'main.html';
+                }
+                else{
                     $('.sign-in-message').removeClass('hidden');
                     $('.sign-in-message').text('Incorrect password');
                     return;
                 }
-                // navigate to main page
-                $('.sign-in-message').addClass('hidden');
-                localStorage.setItem('email', STATE.userEmail);
-                return window.location.href = 'main.html';
             }
             $('.sign-in-message').removeClass('hidden');
             $('.sign-in-message').text('E-email not registered');
@@ -80,7 +82,7 @@ $('.sign-in-button').on('click', (event) => {
     if(validateInput()) {
         STATE.userEmail = $('.email').val();
         STATE.userPassword = $('.password').val();
-        let url = `https://friend-alert.herokuapp.com/user/${STATE.userEmail}/${STATE.userPassword}`;
+        let url = `https://friend-alert.herokuapp.com/user/${STATE.userEmail}`;
         getAJAX(url);
     }
 });
