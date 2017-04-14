@@ -8,7 +8,6 @@ let STATE = {
 
 // GET active user
 function getAJAX(url, callback){
-
     $.ajax({
         url: url,
         dataType: 'json',
@@ -115,8 +114,10 @@ function getPwAJAX(url){
     $.ajax({
         url: url,
         dataType: 'json',
-        success: function(data){
-            alert('Check your email for your new password');
+        success: function(){
+            console.log('getPwAJAX done');
+            $('.sign-in-message').addClass('hidden');
+            return alert('Check your email for your new password');
         },
         error: function(err){
             console.error(err);
@@ -125,19 +126,26 @@ function getPwAJAX(url){
 }
 
 function checkEmailExists(data){
-    if(data[0].email){
-        let url = `https://friend-alert.herokuapp.com/user/pw/${STATE.userEmail}`;
-        getPwAJAX(url);
-    }
-    else{
+    if(data.length === 0){
         $('.sign-in-message').removeClass('hidden');
         $('.sign-in-message').text('Email not registered');
+    }
+    else{
+        let url = `https://friend-alert.herokuapp.com/user/pw/${STATE.userEmail}`;
+        console.log('starting getPwAJAX');
+        getPwAJAX(url);
+        console.log('end getPwAJAX');
     }
 }
 
 $('.email-password-button').on('click', (event) => {
     event.preventDefault();
     STATE.userEmail = $('.email').val();
+    if(STATE.userEmail === ''){
+        $('.sign-in-message').removeClass('hidden');
+        $('.sign-in-message').text('Enter an email');
+        return;
+    }
     let url = `https://friend-alert.herokuapp.com/user/${STATE.userEmail}`;
     getAJAX(url, checkEmailExists);
 });
@@ -189,5 +197,6 @@ $('.forgot-password').on('click', function() {
 $('.reset').on('click', function(){
     reset();
     form.siblings('.create-account').removeClass('hidden');
+    form.siblings('.forgot-password').removeClass('hidden');
     $(this).addClass('hidden');
 });

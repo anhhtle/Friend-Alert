@@ -144,6 +144,8 @@ router.get('/pw/:email', (req, res) => {
       html: `Dear ${user.name},<br><br>Your password have been resetted to 'temp123'. ` +
       `Sign in to your account to change your password.`
     });
+    console.log(user);
+    return res.status(200).json(user);
   })
   .catch(err => res.status(500).json({message: 'something went wrong'}));
 });

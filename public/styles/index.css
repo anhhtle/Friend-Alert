@@ -108,9 +108,12 @@ button {
     background-color: rgb(0, 161, 244);
     border-radius: 5px;
     border-style: none;
+    margin-bottom: 13px;
 }
 
 .toggle {
+    width: 150px;
+    margin: 0 auto 13px;
     color: rgb(0, 161, 244);
     cursor: pointer;
 }
