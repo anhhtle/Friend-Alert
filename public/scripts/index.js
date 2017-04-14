@@ -7,28 +7,12 @@ let STATE = {
 //************* AJAX *******************/
 
 // GET active user
-function getAJAX(url){
+function getAJAX(url, callback){
 
     $.ajax({
         url: url,
         dataType: 'json',
-        success: function(data){
-            if(data.length === 1){
-                if(data[0].password === STATE.userPassword){
-                    // navigate to main page
-                    $('.sign-in-message').addClass('hidden');
-                    localStorage.setItem('email', STATE.userEmail);
-                    return window.location.href = 'main.html';
-                }
-                else{
-                    $('.sign-in-message').removeClass('hidden');
-                    $('.sign-in-message').text('Incorrect password');
-                    return;
-                }
-            }
-            $('.sign-in-message').removeClass('hidden');
-            $('.sign-in-message').text('E-email not registered');
-        },
+        success: callback(data),
         error: function(err){
             console.error(err);
         }
@@ -62,20 +46,38 @@ function postAJAX(){
 
 //require email and password
 function validateInput(){
+    let signInMessage = $('.sign-in-message');
     if($('.email').val() === ''){
-        $('.sign-in-message').text('Missing email');
-        $('.sign-in-message').removeClass('hidden');
+        signInMessage.text('Missing email');
+        signInMessage.removeClass('hidden');
         return false;
     }
     if($('.password').val() === ''){
-        $('.sign-in-message').text('Missing password');
-        $('.sign-in-message').removeClass('hidden');
+        signInMessage.text('Missing password');
+        signInMessage.removeClass('hidden');
         return false;
     }
     return true;
 }
 
 //********* Sign-in
+function processInput(data){
+    if(data.length === 1){
+        if(data[0].password === STATE.userPassword){
+            // navigate to main page
+            $('.sign-in-message').addClass('hidden');
+            localStorage.setItem('email', STATE.userEmail);
+            return window.location.href = 'main.html';
+        }
+        else{
+            $('.sign-in-message').removeClass('hidden');
+            $('.sign-in-message').text('Incorrect password');
+            return;
+        }
+    }
+    $('.sign-in-message').removeClass('hidden');
+    $('.sign-in-message').text('E-email not registered');
+};
 
 $('.sign-in-button').on('click', (event) => {
     event.preventDefault();
@@ -83,7 +85,7 @@ $('.sign-in-button').on('click', (event) => {
         STATE.userEmail = $('.email').val();
         STATE.userPassword = $('.password').val();
         let url = `https://friend-alert.herokuapp.com/user/${STATE.userEmail}`;
-        getAJAX(url);
+        getAJAX(url, processInput);
     }
 });
 
@@ -105,17 +107,58 @@ $('.create-account-button').on('click', (event) => {
     }
 });
 
-//************ toggle sign-in and create account
-function toggle(){
-    const form = $('form');
-    form.children('.name').slideToggle();
-    form.children('.phone').slideToggle();
-    form.children('button').toggleClass('hidden');
-    form.siblings('div').addClass('hidden');
-    form.siblings('p').text() === 'Create an account' ?
-    form.siblings('p').text('Sign in') : form.siblings('p').text('Create an account'); 
-};
+//************ Email password
+$('.email-password-button').on('click', (event) => {
+    event.preventDefault();
+    STATE.userEmail = $('.email').val();
+});
 
-$('.toggle').on('click', () => {
-    toggle();
+//************ toggle sign-in and create account
+const form = $('form');
+
+function reset(){
+    form.children('.password').removeClass('hidden');
+    form.children('.name').addClass('hidden');
+    form.children('.sign-in-button').removeClass('hidden');
+    form.children('.create-account-button').addClass('hidden');
+    form.children('.email-password-button').addClass('hidden');
+    form.siblings('.sign-in-message').addClass('hidden');
+    form.siblings('.create-account').removeClass('hidden');
+    form.siblings('.reset').addClass('hidden');
+}
+
+$('.create-account').on('click', function(){
+    form.children('.password').removeClass('hidden');
+    form.children('.name').removeClass('hidden');
+    form.children('.sign-in-button').addClass('hidden');
+    form.children('.create-account-button').removeClass('hidden');
+    form.children('.email-password-button').addClass('hidden');
+    form.siblings('.sign-in-message').addClass('hidden');
+    form.siblings('.signIn').removeClass('hidden');
+    form.siblings('.forgot-password').removeClass('hidden');
+    form.siblings('.reset').addClass('hidden');
+    $(this).addClass('hidden');
+});
+
+$('.signIn').on('click', function(){
+    reset();
+    $(this).addClass('hidden');
+});
+
+//*************** Toggle Forgot password and Reset ********************/
+$('.forgot-password').on('click', function() {
+    form.children('.password').addClass('hidden');
+    form.children('.name').addClass('hidden');
+    form.children('.sign-in-button').addClass('hidden');
+    form.children('.create-account-button').addClass('hidden');
+    form.children('.email-password-button').removeClass('hidden');
+    form.siblings('.sign-in-message').addClass('hidden');
+    form.siblings('.reset').removeClass('hidden');
+    $(this).addClass('hidden');
+});
+
+$('.reset').on('click', function(){
+    reset();
+    form.siblings('.create-account').removeClass('hidden');
+    $(this).addClass('hidden');
 });

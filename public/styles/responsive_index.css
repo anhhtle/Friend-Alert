@@ -26,13 +26,22 @@
         height: 450px;
     }
 
+    .one {
+        height: 480px;
+    }
+
     .sign-in-container {
+        top: 100px;
         width: 250px;
         padding: 20px;
     }
 
     .sign-in, button {
         height: 30px;
+    }
+
+    .toggle, .forgot-password {
+        font-size: 11pt;
     }
 }
 
@@ -50,7 +59,7 @@
 
     .one {
         padding-top: 15px;
-        height: 450px;
+        height: 500px;
         background:
             linear-gradient(
                 to bottom,
@@ -69,7 +78,7 @@
 
     .sign-in-container {
         display: block;
-        top: 160px;
+        top: 175px;
         right: 55px;
         margin: 0 auto;
         width: 240px;
@@ -90,6 +99,10 @@
     }
 
     .toggle{
+        margin-bottom: 6px;
+    }
+
+    .forgot-password {
         margin-bottom: 0;
     }
 

@@ -160,7 +160,7 @@ router.put('/:email', (req, res) => {
           subject: `Friend-Alert contact verification from ${user.name}`,
           html: `Dear ${newContact.name},<br><br>${user.name} ` +
           `signed you up as an emergency contact on Friend-Alert. ` +
-          `As an emergy contact, you will be alerted by email when ` +
+          `As an emergency contact, you will be alerted by email when ` +
           `${user.name} is late for his/her user set alarm.<br><br>` +
           `If you agree to be a Friend-Alert emergency contact, click ` +
           `<a href="https://friend-alert.herokuapp.com/user/${req.params.email}/${newContact.email}" target="_blank">here</a>.`
