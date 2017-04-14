@@ -73,8 +73,8 @@ router.post('/', (req, res) => {
     .exec()
     .then(count => {
       if(count > 0){
-        console.log('email is already registered');
-        return res.status(422).send('email is already registered');
+        console.log('Email already registered');
+        return res.status(422).send('Email already registered');
       }
 
       //hash password
@@ -131,6 +131,22 @@ router.get('/time/:email', (req, res) => {
   .catch(err => res.status(500).json({message: 'something went wrong'}));
 });
 
+// Send new email
+router.get('/pw/:email', (req, res) => {
+  User
+  .findOneAndUpdate({email: req.params.email}, {$set: {'password': 'temp123'}}, {new: true})
+  .exec()
+  .then((user) => {
+    sendEmail({
+      from: '"Friend-Alert" <friend.alert.app@gmail.com>',
+      to: req.params.email,
+      subject: `Friend-Alert - New Password`,
+      html: `Dear ${user.name},<br><br>Your password have been resetted to 'temp123'. ` +
+      `Sign in to your account to change your password.`
+    });
+  })
+  .catch(err => res.status(500).json({message: 'something went wrong'}));
+});
 
 // UPDATE a user
 router.put('/:email', (req, res) => {
@@ -154,7 +170,7 @@ router.put('/:email', (req, res) => {
     .then((user) => {
       if(req.body.contacts.length > user.contacts.length){
         let newContact = req.body.contacts[req.body.contacts.length - 1];
-        let emailData = {
+        sendEmail({
           from: '"Friend-Alert" <friend.alert.app@gmail.com>',
           to: newContact.email,
           subject: `Friend-Alert contact verification from ${user.name}`,
@@ -164,8 +180,7 @@ router.put('/:email', (req, res) => {
           `${user.name} is late for his/her user set alarm.<br><br>` +
           `If you agree to be a Friend-Alert emergency contact, click ` +
           `<a href="https://friend-alert.herokuapp.com/user/${req.params.email}/${newContact.email}" target="_blank">here</a>.`
-        };
-        sendEmail(emailData);
+        });
       }
     }); // end then
   } // end sending email to new contact

@@ -12,7 +12,7 @@ function getAJAX(url, callback){
     $.ajax({
         url: url,
         dataType: 'json',
-        success: callback(data),
+        success: callback,
         error: function(err){
             console.error(err);
         }
@@ -36,11 +36,12 @@ function postAJAX(){
             console.log(data);
         },
         error: function(err){
-            console.error(err.responseText);
+            $('.sign-in-message').removeClass('hidden');
+            $('.sign-in-message').text('Email already registered');
         }
     });
-
 };
+
 
 //********** Sign-in Page **************/
 
@@ -103,14 +104,42 @@ $('.create-account-button').on('click', (event) => {
         STATE.userPassword = $('.password').val();
         STATE.userName = $('.name').val();
         postAJAX();
-        toggle();
+        reset();
+        $('.signIn').addClass('hidden');
     }
 });
 
-//************ Email password
+//************ Email password **********************
+// Get (send password email)
+function getPwAJAX(url){
+    $.ajax({
+        url: url,
+        dataType: 'json',
+        success: function(data){
+            alert('Check your email for your new password');
+        },
+        error: function(err){
+            console.error(err);
+        }
+    });
+}
+
+function checkEmailExists(data){
+    if(data[0].email){
+        let url = `https://friend-alert.herokuapp.com/user/pw/${STATE.userEmail}`;
+        getPwAJAX(url);
+    }
+    else{
+        $('.sign-in-message').removeClass('hidden');
+        $('.sign-in-message').text('Email not registered');
+    }
+}
+
 $('.email-password-button').on('click', (event) => {
     event.preventDefault();
     STATE.userEmail = $('.email').val();
+    let url = `https://friend-alert.herokuapp.com/user/${STATE.userEmail}`;
+    getAJAX(url, checkEmailExists);
 });
 
 //************ toggle sign-in and create account
