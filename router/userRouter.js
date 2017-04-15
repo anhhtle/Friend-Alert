@@ -2,7 +2,6 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt-nodejs');
 const {User} = require('../models');
 const {sendEmail} = require('../emailer/emailer');
 router.use(bodyParser.json());
@@ -27,78 +26,58 @@ router.get('/:email', (req, res) => {
   User
     .find({email: req.params.email})
     .exec()
-    .then(user => {
-      console.log(user);
-      return res.json(user);
-    })
+    .then(user => res.status(200).json(user))
     .catch(err => {
       console.error(err);
       res.status(500).json({error: 'something went wrong'});
     });
 }) // end GET specific users
 
-// Check user password
-// router.get('/:email/:password', (req, res) => {
-//     User
-//         .findOne({email: req.params.email})
-//         .exec()
-//         .then(user => {
-//             console.log('then')
-//             if(!bcrypt.compareSync(req.params.password, user.password)){
-//                 return res.status(200).json([{'password': false}]);
-//             }
-//             return res.status(200).json([{'password': true}]);
-//         })
-//         .catch(err => res.status(200).json([]));
-// });
-
 // POST new user
-router.post('/', (req, res) => {
-  // check for required fields
-  console.log(req.body);
+function validatePost(data){
   const requiredFields = ['email', 'password'];
   for(let i = 0; i < requiredFields.length; i++){
     const field = requiredFields[i];
-    if(!(field in req.body)){
-      console.log(req.body);
-      const message = `missing '${field}' in request body`;
-      console.error(message);
-      return res.status(400).send(message);
+    if(!(field in data.body)){
+      console.error(`missing '${field}' in request body`);
+      return false;
     }
   } // end for
+  return true;
+};
+
+router.post('/', (req, res) => {
+  // validate req input
+  if(validatePost(req)){
   // check to see if email is registered already
-  return User
-    .find({email: req.body.email})
-    .count()
-    .exec()
-    .then(count => {
-      if(count > 0){
-        console.log('Email already registered');
-        return res.status(422).send('Email already registered');
-      }
+    return User
+      .find({email: req.body.email})
+      .count()
+      .exec()
+      .then(count => {
+        if(count > 0){
+          console.log('Email already registered');
+          return res.status(422).send('Email already registered');
+        }
 
-      //hash password
-      //let hash = bcrypt.hashSync(req.body.password);
-
-      // create new user
-      const newUser = {
-        email: req.body.email,
-        password: req.body.password,
-        name: req.body.name || '',
-        community: false,
-        message: '',
-        alarmTime: 0,
-        alertOn: false
-      };
-      return User.create(newUser);
-    })
-    .then(user => {
-      return res.status(201).json(user);
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({error: 'something went wrong'});
-    });
+        // create new user
+        const newUser = {
+          email: req.body.email,
+          password: req.body.password,
+          name: req.body.name || '',
+          community: false,
+          message: '',
+          alarmTime: 0,
+          alertOn: false
+        };
+        return User.create(newUser);
+      })
+      .then(user => res.status(201).json(user))
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({error: 'something went wrong'});
+      });
+  }
 }); // end POST
 
 //DELETE a user
@@ -109,9 +88,9 @@ router.delete('/:email', (req, res) => {
   .then(deletedUser => {
     if(deletedUser === null){
       console.log("can't find user to delete");
-      return res.status(400).json({message: "can't find user to delete"});
+      res.status(400).json({message: "can't find user to delete"});
     }
-    return res.status(204).json({message: `deleted user ${deletedUser.email}`});
+    res.status(204).json({message: `deleted user ${deletedUser.email}`});
   })
   .catch(err => {
     console.error(err);
@@ -131,10 +110,14 @@ router.get('/time/:email', (req, res) => {
   .catch(err => res.status(500).json({message: 'something went wrong'}));
 });
 
-// Send new password email
+// Send new password email // break random password to new function
+function randomNumber(){
+  return Math.round(Math.random() * (99999 - 10000) + 10000);
+};
+
 router.get('/pw/:email', (req, res) => {
-  //generate random number
-  let newPassword = Math.random() * (99999 - 10000) + 10000;
+  //generate random number between 10000 and 99999 as password
+  let newPassword = randomNumber();
   User
   .findOneAndUpdate({email: req.params.email}, {$set: {'password': newPassword}}, {new: true})
   .exec()
@@ -147,25 +130,26 @@ router.get('/pw/:email', (req, res) => {
       `Sign in to your account to change your password.`
     });
     console.log(user);
-    return res.status(200).json(user);
+    res.status(200).json(user);
   })
   .catch(err => res.status(500).json({message: 'something went wrong'}));
 });
 
 // UPDATE a user
-router.put('/:email', (req, res) => {
+function getUpdateData(data){
   let updateUser = {};
   const updateableFields = ['email', 'password', 'name', 'community', 'message', 'alarmTime', 'alertOn', 'contacts'];
   updateableFields.forEach(field => {
-    if(field in req.body){
-      updateUser[field] = req.body[field];
+    if(field in data.body){
+      updateUser[field] = data.body[field];
     }
   });
+  return updateUser;
+};
 
-  // hash password
-  //if('password' in req.body)
-     //updateUser[password] = bcrypt.hashSync(updateUser[password]);
-
+router.put('/:email', (req, res) => {
+  // get update data
+  let updateUser = getUpdateData(req);
   // If adding new contact, send sign-up email to contact
   if(req.body.contacts){
     User

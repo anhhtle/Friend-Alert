@@ -71,8 +71,29 @@ describe('Users', function() {
                     item.should.be.a('object');
                     item.should.include.keys(expectedKeys);
                 });
-            })
-    }) // end GET
+            });
+    }); // end GET
+
+    // GET specific user
+    it('should return specific user on GET', () => {
+        return chai.request(app)
+            .get('/user/a@gmail.com')
+            .then((res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.should.be.a('array');
+                res.body.length.should.equal(1);
+                const expectedKeys = ['__v','_id','email', 'password', 'name', 'community', 'alertOn', 'alarmTime', 'message', 'contacts'];
+                res.body[0].should.include.keys(expectedKeys);
+                res.body[0].email.should.equal('a@gmail.com');
+                res.body[0].password.should.equal('a');
+                res.body[0].name.should.equal('new name');
+                res.body[0].community.should.equal(false);
+                res.body[0].alertOn.should.equal(false);
+                res.body[0].alarmTime.should.equal(2);
+                res.body[0].message.should.equal('');
+            });
+    });
 
     // DELETE user
     it('should delete a user', () => {
