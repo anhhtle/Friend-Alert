@@ -131,17 +131,19 @@ router.get('/time/:email', (req, res) => {
   .catch(err => res.status(500).json({message: 'something went wrong'}));
 });
 
-// Send new email
+// Send new password email
 router.get('/pw/:email', (req, res) => {
+  //generate random number
+  let newPassword = Math.random() * (99999 - 10000) + 10000;
   User
-  .findOneAndUpdate({email: req.params.email}, {$set: {'password': 'temp123'}}, {new: true})
+  .findOneAndUpdate({email: req.params.email}, {$set: {'password': newPassword}}, {new: true})
   .exec()
   .then((user) => {
     sendEmail({
       from: '"Friend-Alert" <friend.alert.app@gmail.com>',
       to: req.params.email,
       subject: `Friend-Alert - New Password`,
-      html: `Dear ${user.name},<br><br>Your password have been resetted to 'temp123'. ` +
+      html: `Dear ${user.name},<br><br>Your password have been resetted to '${newPassword}'. ` +
       `Sign in to your account to change your password.`
     });
     console.log(user);
