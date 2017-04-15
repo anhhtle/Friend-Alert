@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cronJob = require('cron').CronJob;
-const bcrypt = require('bcrypt-nodejs');
 const {sendEmail} = require('./emailer/emailer');
 const {DATABASE_URL, PORT} = require('./router/config');
 const {User} = require('./models');

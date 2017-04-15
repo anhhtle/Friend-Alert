@@ -12,7 +12,6 @@ router.get('/', (req, res) => {
     .find()
     .exec()
     .then(users => {
-      console.log(users);
       res.status(200).json(users);
     })
     .catch(err => {
@@ -56,7 +55,6 @@ router.post('/', (req, res) => {
       .exec()
       .then(count => {
         if(count > 0){
-          console.log('Email already registered');
           return res.status(422).send('Email already registered');
         }
 

@@ -31,9 +31,6 @@ function postAJAX(){
         type: 'POST',
         contentType: 'application/json',
         dataType: 'json',
-        success: function(data){
-            console.log(data);
-        },
         error: function(err){
             $('.sign-in-message').removeClass('hidden');
             $('.sign-in-message').text('Email already registered');
@@ -115,7 +112,6 @@ function getPwAJAX(url){
         url: url,
         dataType: 'json',
         success: function(){
-            console.log('getPwAJAX done');
             $('.sign-in-message').addClass('hidden');
             return alert('Check your email for your new password');
         },
@@ -132,9 +128,7 @@ function checkEmailExists(data){
     }
     else{
         let url = `https://friend-alert.herokuapp.com/user/pw/${STATE.userEmail}`;
-        console.log('starting getPwAJAX');
         getPwAJAX(url);
-        console.log('end getPwAJAX');
     }
 }
 
