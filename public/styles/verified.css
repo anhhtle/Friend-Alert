@@ -8,15 +8,17 @@ html {
 
 body {
     height: 100%;
-    background-color: #B6C9BB;
+    background-color: #D1DEDE;
     text-align: center;
+    font-family: 'Merriweather', serif;
+    color: #b56d69;
 }
 
 /***************** header **************************/
 header {
     width: 100%;
     height: 75px;
-    background-color: #985F99;
+    background-color: #C58882;
 }
 
 /****** logo ********/
@@ -35,6 +37,7 @@ header {
 
 a {
     text-decoration: none;
+    color: #1D201F;
 }
 
 .friend {
@@ -50,5 +53,4 @@ a {
 /******************* body ************************/
 h1 {
     margin-top: 80px;
-    color: #985F99;
 }

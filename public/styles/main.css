@@ -8,13 +8,19 @@ html {
 
 body {
     height: 100%;
-    background-color: #B6C9BB;
+    background-color: #D1DEDE;
+    font-family: 'Merriweather', serif;
 }
 
 main {
     margin: 0 auto;
     text-align: center;
-    color: #985F99;
+    color: #b56d69;
+}
+
+button {
+    background-color: whitesmoke;
+    color: #a53ea7;
 }
 
 /******************** Navigation *******************/
@@ -26,7 +32,7 @@ header {
     margin-bottom: 50px;
     display: flex;
     align-items: flex-end;
-    background-color: #985F99;
+    background-color: #C58882;
 }
 
 .navigation-container{
@@ -52,26 +58,17 @@ li {
     height: 35px;
     line-height: 35px;
     text-align: center;
-    color: #B6C9BB;
+    color: #D1DEDE;
 }
 
 li:hover:not(.active) {
-    background-color: #9684A1;
+    background-color: #DF928E;
     cursor: pointer;
-}
-
-textarea {
-    color: white;
-}
-
-textarea::placeholder {
-    color: darkgrey;
 }
 
 #alarm-icon {
     display: none;
 }
-
 
 /********************** logo **************************/
 .logo {
@@ -101,13 +98,16 @@ textarea::placeholder {
 
 /*********************** Alarm ***************************/
 
-
 .clock {
     display: inline-block;
     width: 150px;
     padding: 10px;
     margin-bottom: 20px;
-    background-color: #AAACB0;
+    background-color: #C58882;
+}
+
+.clock-text{
+    color: #D1DEDE;
 }
 
 input[type='number'] {
@@ -117,14 +117,15 @@ input[type='number'] {
     font-size: 30pt;
     border: none;
     text-align: center;
-    background-color: #985F99;
-    color: white;
+    background-color: #EAD2AC;
+    color: #1D201F;
 }
 
 textarea {
     padding: 10px;
     margin-bottom: 20px;
-    background-color: #985F99;
+    background-color: #EAD2AC;
+    color: #1D201F;
 }
 
 .button {
@@ -133,11 +134,13 @@ textarea {
 }
 
 #alarm-on-button {
-    background-color: deepskyblue;
+    background-color: #1bb6ea;
+    color: #1D201F;
 }
 
 #alarm-off-button {
     background-color: lightcoral;
+    color: #1D201F;
 }
 
 
@@ -180,8 +183,8 @@ textarea {
     margin: 0 auto 30px;
     min-width: 30%;
     padding: 10px;
-    background-color: #985F99;
-    color: #B6C9BB;
+    background-color: #C58882;
+    color: #dae8de;
 }
 
 /************************ Account ************************/
@@ -249,7 +252,7 @@ label {
 }
 
 .active {
-    background-color: #B6C9BB;
-    color: #985F99;
+    background-color: #D1DEDE;
+    color: #C58882;
 }
 

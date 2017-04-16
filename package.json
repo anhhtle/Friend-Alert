@@ -4,8 +4,6 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.1",
     "cron": "^1.2.1",
     "dotenv": "^4.0.0",

@@ -7,6 +7,10 @@
         height: 550px;
     }
 
+    .three {
+        height: 450px;
+    }
+
     .sign-in-container {
         width: 300px;
         padding: 25px;
@@ -18,6 +22,7 @@
 }
 
 @media only screen and (max-width: 650px){
+
     .one-text, .two-text, .three-text {
         font-size: 17pt;
     }
@@ -28,6 +33,10 @@
 
     .one {
         height: 480px;
+    }
+
+    .three {
+        height: 350px;
     }
 
     .sign-in-container {
@@ -45,16 +54,23 @@
     }
 }
 
-@media only screen and (max-width: 400px){
+@media only screen and (max-width: 500px){
 
 /************* section one *************/
+    .grid {
+        display: block;
+    }
+
     .one-text, .two-text, .three-text {
         display: block;
         position: absolute;
         text-align: center;
-        top: 50px;
         width: 100%;
         font-size: 15pt;
+    }
+
+    .one-text {
+        top: 70px;
     }
 
     .one {
@@ -77,9 +93,10 @@
     }
 
     .sign-in-container {
+        position: relative;
         display: block;
-        top: 175px;
-        right: 55px;
+        top: 150px;
+        right: 0;
         margin: 0 auto;
         width: 240px;
         padding: 20px;
@@ -118,21 +135,24 @@
     }
 
     .two-image {
-        width: 75%;
-        top: 160px;
-        right: 45px;
+        position: relative;
+        display: block;
+        margin: 0 auto;
+        width: 65%;
+        top: 150px;
+        right: 0;
     }
 
 /*********** section three *******/
 
     .three {
         height: 280px;
-        padding-top: 20px;
+        padding-top: 50px;
     }
 
     .three-text {
         position: relative;
-        margin: 0 0 15px;
+        margin: 0;
     }
 
     .git-hub img {
