@@ -80,6 +80,7 @@ li:hover:not(.active) {
     border-radius: 7pt;
     background-color: antiquewhite;
     margin-bottom: 20px;
+    font-family: 'Playfair Display SC', serif;
 }
 
 .logo:hover {

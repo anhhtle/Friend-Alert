@@ -25,6 +25,7 @@ body {
     border: 3pt solid crimson;
     border-radius: 10pt;
     background-color: antiquewhite;
+    font-family: 'Playfair Display SC', serif;
 }
 
 .friend {
