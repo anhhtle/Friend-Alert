@@ -72,13 +72,13 @@ li:hover:not(.active) {
 
 /********************** logo **************************/
 .logo {
-    width: 150px;
+    width: 163px;
     text-align: center;
     font-size: 20px;
     font-weight: bold;
     border: 3pt solid crimson;
     border-radius: 7pt;
-    background-color: antiquewhite;
+    background-color: #EAD2AC;
     margin-bottom: 20px;
     font-family: 'Playfair Display SC', serif;
 }
