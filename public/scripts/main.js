@@ -154,6 +154,8 @@ $('#alarm-off-button').on('click', function(event) {
     $('#alarm-on-button').removeClass('hidden');
     $('.hour').val(0);
     $('.min').val(0);
+    STATE.message = '';
+    $('textarea').val(STATE.message);
     let query = {hour: 0, min: 0, alertOn: false};
     let url = `https://friend-alert.herokuapp.com/user/time/${localStorage.email}`;
     $('.hour').prop('disabled', false);

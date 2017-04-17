@@ -187,6 +187,10 @@ textarea {
     color: #dae8de;
 }
 
+.contact-delete {
+    width: 90px;
+}
+
 /************************ Account ************************/
 
 .input-container {

@@ -138,7 +138,7 @@
         position: relative;
         display: block;
         margin: 0 auto;
-        width: 65%;
+        width: 70%;
         top: 150px;
         right: 0;
     }
@@ -156,6 +156,14 @@
     }
 
     .git-hub img {
+        padding-top: 35px;
         width: 50px;
+    }
+}
+
+@media only screen and (max-width: 500px){
+
+    .two-image {
+        top: 180px;
     }
 }
