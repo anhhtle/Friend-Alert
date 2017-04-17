@@ -28,4 +28,4 @@ Use this link to try the app for yourself! https://friend-alert.herokuapp.com/in
 On the client side, the UI is coded with HTML and CSS and runs with Javascript and JQuery. The server side uses REST API and is coded with Nodejs with the express framework. The timer logic invole invoking a cronjob every minute. Mocha, Chai, and Travis CI is used for intergrated testing. The database of choice is Mongo and the app is hosted on Heroku.
 
 ## Future Enhancement
-Add option for alerts to be send via text messages instead of email
+Add option for alerts to be sent via text messages instead of email.
