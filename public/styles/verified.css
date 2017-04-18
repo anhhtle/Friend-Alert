@@ -16,6 +16,7 @@ body {
 
 /***************** header **************************/
 header {
+    display: flex;
     width: 100%;
     height: 75px;
     background-color: #c39b8a;
@@ -23,11 +24,8 @@ header {
 
 /****** logo ********/
 .logo {
-    position: relative;
     display: flex;
     align-items: center;
-    width: 330px;
-    top: 15px;
     margin: 0 auto;
     font-size: 35px;
     font-family: 'Varela Round','Playfair Display SC', serif;
