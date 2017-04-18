@@ -79,8 +79,8 @@
         background:
             linear-gradient(
                 to bottom,
-                rgba(0, 0, 0, 0.83),
-                rgba(0, 0, 0, 0.0)
+                rgba(0, 0, 0, 0.25),
+                rgba(0, 0, 0, 0.80)
             ), url('../images/header.jpeg');
         background-size: cover;
         background-attachment: fixed;
@@ -90,6 +90,10 @@
         height: 35px;
         width: 180px;
         font-size: 15pt;
+    }
+
+    .logo img{
+        width: 35px;
     }
 
     .sign-in-container {

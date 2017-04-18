@@ -130,8 +130,13 @@ $('#alarm-on-button').on('click', function(event) {
                 haveVerified = true;
             }
         });
-        if(!haveVerified)
-            return alert(`You do not have any verified contact. Sign up for community to send alerts to other community members`);
+        if(!haveVerified){
+            $('#alarm-container').removeClass('active');
+            $('#contact-container').addClass('active');
+            $('.alarm-container').addClass('hidden');
+            $('.contact-container').removeClass('hidden');
+            return alert(`You do not have any verified emergency contacts; at least one contact is required to send alerts. You can add and manage your contacts in the "Contacts" tab.`);
+        }
     }
     $(this).addClass('hidden');
     $('#alarm-off-button').removeClass('hidden');

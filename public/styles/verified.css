@@ -8,7 +8,7 @@ html {
 
 body {
     height: 100%;
-    background-color: #D1DEDE;
+    background-color: #FFFFFF;
     text-align: center;
     font-family: 'Merriweather', serif;
     color: #b56d69;
@@ -18,22 +18,26 @@ body {
 header {
     width: 100%;
     height: 75px;
-    background-color: #C58882;
+    background-color: #c39b8a;
 }
 
 /****** logo ********/
 .logo {
     position: relative;
+    display: flex;
+    align-items: center;
+    width: 330px;
     top: 15px;
     margin: 0 auto;
-    width: 300px;
-    text-align: center;
     font-size: 35px;
-    font-weight: bold;
-    border: 3pt solid crimson;
-    border-radius: 10pt;
-    background-color: #EAD2AC;
-    font-family: 'Playfair Display SC', serif;
+    font-family: 'Varela Round','Playfair Display SC', serif;
+    color: #000500;
+}
+
+.logo img{
+    display: inline-block;
+    width: 45px;
+    margin-right: 7px;
 }
 
 a {
@@ -41,15 +45,6 @@ a {
     color: #1D201F;
 }
 
-.friend {
-    color: #985F99;
-    text-shadow: 2px 2px #BFEDC1;
-}
-
-.alert {
-    color: #BFEDC1;
-    text-shadow: 2px 2px #985F99;
-}
 
 /******************* body ************************/
 h1 {
