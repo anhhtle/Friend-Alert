@@ -8,8 +8,13 @@
 
     .logo {
         margin: 5px auto;
-        width: 50%;
+        width: 55%;
         padding-left: 20px;
+        font-size: 18pt;
+    }
+
+    .logo img {
+        width: 32px;
     }
 
     .navigation-ul {
