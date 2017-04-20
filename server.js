@@ -13,6 +13,15 @@ const userRouter = require('./router/userRouter');
 require('dotenv').config();
 
 const app = express();
+
+// alow CORS
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+
 app.use(morgan('common'));
 app.use(bodyParser.json());
 app.use(express.static('public'));
@@ -20,6 +29,7 @@ mongoose.Promise = global.Promise;
 
 // router
 app.use('/user', userRouter);
+
 
 
 // catch all
