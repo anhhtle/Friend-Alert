@@ -52,10 +52,8 @@ const job = new cronJob('*/1 * * * *', () => {
     .find({'alertOn': true})
     .exec()
     .then(users => {
-      console.log(users);
       users.forEach((user) => {
         if(currentTime === user.alarmTime){
-
           // setting alarm to another hour
           let alarmTime = new Date(Date.parse(new Date()) + (1 * 60 * 60 * 1000));
           alarmTime = Math.floor(alarmTime / 1000 / 60);

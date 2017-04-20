@@ -20,7 +20,7 @@ main {
 
 button {
     background-color: #F1DABF;
-    color: #a53ea7;
+    color: #000500;
 }
 
 /******************** Navigation *******************/
@@ -179,7 +179,7 @@ textarea {
     width: 180px;
     height: 40px;
     background-color: #F1DABF;
-    color: #985F99;
+    color: #000500;
 }
 
 .contacts-results {
@@ -252,7 +252,7 @@ label {
     width: 180px;
     height: 40px;
     background-color: #F1DABF;
-    color: #985F99;
+    color: #000500;
 }
 
 #account-delete {

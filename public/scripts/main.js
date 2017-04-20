@@ -54,9 +54,6 @@ function putAJAX(url, query){
         type: 'PUT',
         contentType: 'application/json',
         dataType: 'json',
-        success: function(data){
-            console.log(data);
-        },
         error: function(err){
             console.log(err.responseText);
         }
@@ -69,7 +66,6 @@ function deleteAJAX(){
         url: `https://friend-alert.herokuapp.com/user/${localStorage.email}`,
         type: 'DELETE',
         success: function(data){
-            console.log(data);
             localStorage.clear();
             return window.location.href = "index.html";
         }
