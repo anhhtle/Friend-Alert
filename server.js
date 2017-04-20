@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cronJob = require('cron').CronJob;
+const cors = require('cors');
 const {sendEmail} = require('./emailer/emailer');
 const {DATABASE_URL, PORT} = require('./router/config');
 const {User} = require('./models');
@@ -13,13 +14,14 @@ const userRouter = require('./router/userRouter');
 require('dotenv').config();
 
 const app = express();
+// allow CORS
+app.use(cors())
 
-// alow CORS
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
 
 
 app.use(morgan('common'));
