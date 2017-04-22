@@ -177,13 +177,28 @@ button {
 }
 
 .git-hub {
-    margin: 0 auto;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding-top: 50px;
 }
 
 .git-hub img {
     width: 70px;
+}
+
+.demo{
+    display: flex;
+    align-items: center;
+    font-size: 25pt;
+    border-left: 5px solid #ef9328;
+    height: 60px;
+    margin-left: 12px;
+    padding-left: 12px;
+}
+
+.demo:hover{
+    cursor: pointer;
 }
 
 /******************* animation ******************/

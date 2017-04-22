@@ -44,18 +44,27 @@ function postAJAX(){
 //require email and password
 function validateInput(){
     let signInMessage = $('.sign-in-message');
+    // check email is empty
     if($('.email').val() === ''){
         signInMessage.text('Missing email');
         signInMessage.removeClass('hidden');
         return false;
     }
+    // check password is empty
     if($('.password').val() === ''){
         signInMessage.text('Missing password');
         signInMessage.removeClass('hidden');
         return false;
     }
+    // check email input is in correct pattern
+    let emailExp = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if(!emailExp.test($('.email').val())){
+        signInMessage.text('Enter valid email');
+        signInMessage.removeClass('hidden');
+        return false;
+    }
     return true;
-}
+};
 
 //********* Sign-in
 function processInput(data){
@@ -193,4 +202,10 @@ $('.reset').on('click', function(){
     form.siblings('.create-account').removeClass('hidden');
     form.siblings('.forgot-password').removeClass('hidden');
     $(this).addClass('hidden');
+});
+
+//*************************** Demo Mode *******************************/
+$('.demo').on('click', () => {
+    localStorage.setItem('email', 'friend.alert.demo@gmail.com');
+    return window.location.href = 'main.html';
 });

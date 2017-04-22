@@ -19,6 +19,12 @@
     .sign-in, button {
         height: 35px;
     }
+
+    .demo{
+        height: 45px;
+        border-left: 3px solid #362417;
+        font-size: 18pt;
+    }
 }
 
 @media only screen and (max-width: 650px){
@@ -52,6 +58,12 @@
     .toggle, .forgot-password {
         font-size: 11pt;
     }
+
+    .demo{
+        height: 35px;
+        font-size: 15pt;
+    }
+
 }
 
 @media only screen and (max-width: 500px){
@@ -160,12 +172,17 @@
     }
 
     .git-hub {
-        padding-top: 0;
+        padding-top: 20px;
     }
 
     .git-hub img {
-        padding-top: 35px;
         width: 50px;
+    }
+
+    .demo{
+        height: 25px;
+        border-left: 2px solid #362417;
+        font-size: 12pt;
     }
 }
 

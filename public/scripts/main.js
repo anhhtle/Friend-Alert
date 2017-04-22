@@ -198,7 +198,7 @@ function renderContacts(){
         if(contact.verified === false){
             verified = 'Not verified';
         }
-        var template = $(
+        let template = $(
             `<div class="contact-card">
                 <h2>${contact.name}</h2>
                 <h3>${contact.email}</h3>
@@ -206,6 +206,16 @@ function renderContacts(){
                 <button id="${i}" class="contact-delete">Delete</button>
             </div>`
         );
+        if(localStorage.email === 'friend.alert.demo@gmail.com'){
+            template = $(
+                `<div class="contact-card">
+                    <h2>${contact.name}</h2>
+                    <h3>${contact.email}</h3>
+                    <h5>${verified}</h5>
+                    <button id="${i}" class="contact-delete" disabled>Delete</button>
+                </div>`
+            );
+        }
         container.append(template);
     });
 
@@ -267,6 +277,18 @@ $('#account-delete').on('click', (event) => {
         deleteAJAX();
 })
 
+//********************* Demo Mode ******************************
+function demoMode(){
+    if(localStorage.email === 'friend.alert.demo@gmail.com'){
+        $('.contact-container h3').html(`A verification email will be sent to new contact<p class="demo">(Disabled for demo-mode)</p>`);
+        $('.contact-input').prop('disabled', true);
+        $('.contact-button').prop('disabled', true);
+        $('.account-container h2').html(`Manage your account<p class="demo">(Disabled for demo-mode)</p>`);
+        $('.account-input').prop('disabled', true);
+        $('.account-button').prop('disabled', true);
+    };
+};
+
 //********************* run after DOM load ********************
 
 $(function() {
@@ -280,9 +302,12 @@ $(function() {
         getAJAX();
     }, 60000);
 
+
     setTimeout(() => {
         renderContacts();
         renderAccount();
         $('textarea').val(STATE.message);
     }, 2000);
+
+    demoMode()
 });

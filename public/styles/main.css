@@ -260,6 +260,12 @@ label {
     margin-top: 0;
 }
 
+/*********************** demo *****************************/
+.demo{
+    font-family: 'Merriweather', serif;
+    margin: 5px 0 5px 0;
+    font-size: 12pt;
+}
 
 
 /********************* visual/animation *******************/
