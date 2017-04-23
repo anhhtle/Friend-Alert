@@ -187,14 +187,21 @@ button {
     width: 70px;
 }
 
+.separator {
+    background-color: #ef9328;
+    width: 5px;
+    height: 60px;
+    margin: 0 18px 0 15px;
+}
+
 .demo{
     display: flex;
     align-items: center;
     font-size: 25pt;
-    border-left: 5px solid #ef9328;
-    height: 60px;
-    margin-left: 12px;
-    padding-left: 12px;
+    background-color: #362417;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 7px 5px 7px;
 }
 
 .demo:hover{

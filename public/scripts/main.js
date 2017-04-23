@@ -307,7 +307,7 @@ $(function() {
         renderContacts();
         renderAccount();
         $('textarea').val(STATE.message);
-    }, 2000);
+    }, 1500);
 
     demoMode()
 });
