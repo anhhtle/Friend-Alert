@@ -263,7 +263,8 @@ label {
 /*********************** demo *****************************/
 .demo{
     font-family: 'Merriweather', serif;
-    margin: 5px 0 5px 0;
+    color: #362417;
+    margin: 7px 0 0 0;
     font-size: 12pt;
 }
 

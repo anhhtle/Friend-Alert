@@ -280,10 +280,10 @@ $('#account-delete').on('click', (event) => {
 //********************* Demo Mode ******************************
 function demoMode(){
     if(localStorage.email === 'friend.alert.demo@gmail.com'){
-        $('.contact-container h3').html(`A verification email will be sent to new contact<p class="demo">(Disabled for demo-mode)</p>`);
+        $('.contact-container h2').html(`Manage your contacts<p class="demo">(Disabled for demo mode)</p>`);
         $('.contact-input').prop('disabled', true);
         $('.contact-button').prop('disabled', true);
-        $('.account-container h2').html(`Manage your account<p class="demo">(Disabled for demo-mode)</p>`);
+        $('.account-container h2').html(`Manage your account<p class="demo">(Disabled for demo mode)</p>`);
         $('.account-input').prop('disabled', true);
         $('.account-button').prop('disabled', true);
     };
