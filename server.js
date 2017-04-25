@@ -14,14 +14,9 @@ const userRouter = require('./router/userRouter');
 require('dotenv').config();
 
 const app = express();
+
 // allow CORS
 app.use(cors())
-
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
 
 
 app.use(morgan('common'));
@@ -54,72 +49,102 @@ const job = new cronJob('*/1 * * * *', () => {
     .then(users => {
       users.forEach((user) => {
         if(currentTime === user.alarmTime){
-          // setting alarm to another hour
-          let alarmTime = new Date(Date.parse(new Date()) + (1 * 60 * 60 * 1000));
-          alarmTime = Math.floor(alarmTime / 1000 / 60);
-          let query = {'alarmTime': alarmTime};
-
-          // update user with new alarm time
-          User
-          .findOneAndUpdate({email: user.email}, {$set: query}, {new: true})
-          .exec()
-          .then(() => {
-            // send email to non-community
-            if(user.community === false){
-              user.contacts.forEach((contact) => {
-                if(contact.verified === true){
-                  sendEmail({
-                    from: '"Friend-Alert" <friend.alert.app@gmail.com>',
-                    to: contact.email,
-                    subject: `Friend-Alert alarm for ${user.name}`,
-                    html: `Dear ${contact.name},<br><br>${user.name} ` +
-                    `signed you up as an emergency contact and is late for his/her alarm time. ` +
-                    `You will receive this alert every hour until the alarm is turned off.<br><br>` +
-                    `Contact info:<br>${user.email}<br><br>If you verified that ${user.name} is ok, ` +
-                    `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off the alarm.<br><br>` +
-                    `------------------------- ${user.name}'s message ------------------------- <br><br>${user.message}`
-                  });
-                  console.log(`send email for user ${user.email}, to ${contact.email}`);
-                }
+          // DEMO mode
+          if(user.email === 'friend.alert.demo@gmail.com'){
+            // send DEMO email
+            user.contacts.forEach((contact) => {
+              sendEmail({
+                from: '"Friend-Alert" <friend.alert.app@gmail.com>',
+                to: contact.email,
+                subject: `Friend-Alert Demo Alarm`,
+                html: `Dear ${contact.name},<br><br>This is a demo alert from Friend-Alert, an app that lets you ` +
+                `sign up your friends as emergency contacts. You can then set a timer; once the timer expires, your contacts ` +
+                `will receive an alert every hour until the alarm is turned off. For this demo, the alarm is automatically ` +
+                `turned off and you won't be receiving any more messages. If you like our services, create an account ` +
+                `<a href="https://friend-alert.herokuapp.com/">here</a>.<br><br>` +
+                `------------------------- Demo message ------------------------- <br><br>${user.message}`
               });
+              console.log(`send DEMO email to ${contact.email}`);
+            });
+            // delete DEMO contacts
+            User
+            .findOneAndUpdate({email: user.email}, {$set: {'contacts': []}}, {new: true})
+            .exec()
+            .then(() => {
               res.send('success');
-            } // end non-community
-            
-            // community 
-            if(user.community === true){
-              User
-              .find({community: true})
-              .exec()
-              .then((communities) => {
-                communities.forEach((member) => {
-                  if(member.email != user.email){
+            })
+            .catch(err => res.status(500).json({message: 'something went wrong'}));
+          }
+
+          // production mode
+          else {
+            // setting alarm to another hour
+            let alarmTime = new Date(Date.parse(new Date()) + (1 * 60 * 60 * 1000));
+            alarmTime = Math.floor(alarmTime / 1000 / 60);
+            let query = {'alarmTime': alarmTime};
+
+            // update user with new alarm time
+            User
+            .findOneAndUpdate({email: user.email}, {$set: query}, {new: true})
+            .exec()
+            .then(() => {
+              // send email to non-community
+              if(user.community === false){
+                user.contacts.forEach((contact) => {
+                  if(contact.verified === true){
                     sendEmail({
                       from: '"Friend-Alert" <friend.alert.app@gmail.com>',
-                      to: member.email,
-                      subject: `Friend-Alert Community Alarm for ${user.name}`,
-                      html: `Dear ${member.name}<br><br>Friend-Alert community member ${user.name} is late for his/her alarm. ` +
-                      `You will receive this alert every hour until the alarm is turned off.<br><br>If you verified that ${user.name} is ok, ` +
+                      to: contact.email,
+                      subject: `Friend-Alert alarm for ${user.name}`,
+                      html: `Dear ${contact.name},<br><br>${user.name} ` +
+                      `signed you up as an emergency contact and is late for his/her alarm time. ` +
+                      `You will receive this alert every hour until the alarm is turned off.<br><br>` +
+                      `Contact info:<br>${user.email}<br><br>If you verified that ${user.name} is ok, ` +
                       `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off the alarm.<br><br>` +
-                      `-------------------------  ${user.name}'s message ------------------------- <br><br>${user.message}`
+                      `------------------------- ${user.name}'s message ------------------------- <br><br>${user.message}`
                     });
+                    console.log(`send email for user ${user.email}, to ${contact.email}`);
                   }
                 });
                 res.send('success');
-              })
-              .catch(err => res.status(500).json({message: 'something went wrong'}));
-            } // end community
-          })
-          .catch(err => res.status(500).json({message: 'something went wrong'}));
-          // send email to user
-          sendEmail({
-            from: '"Friend-Alert" <friend.alert.app@gmail.com>',
-            to: user.email,
-            subject: `Friend-Alert Alarm Sent`,
-            html: `Dear ${user.name}<br><br>Your alarm time is up and alerts have been sent out. ` +
-            `Alerts will be send every hour until the alarm is turned off either by you or your contacts/community members.<br><br>` +
-            `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off the alarm.<br><br>` +
-            `-------------------------- Your message ------------------------ <br><br>${user.message}`
-          });
+              } // end non-community
+              
+              // community 
+              if(user.community === true){
+                User
+                .find({community: true})
+                .exec()
+                .then((communities) => {
+                  communities.forEach((member) => {
+                    if(member.email != user.email){
+                      sendEmail({
+                        from: '"Friend-Alert" <friend.alert.app@gmail.com>',
+                        to: member.email,
+                        subject: `Friend-Alert Community Alarm for ${user.name}`,
+                        html: `Dear ${member.name}<br><br>Friend-Alert community member ${user.name} is late for his/her alarm. ` +
+                        `You will receive this alert every hour until the alarm is turned off.<br><br>If you verified that ${user.name} is ok, ` +
+                        `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off the alarm.<br><br>` +
+                        `-------------------------  ${user.name}'s message ------------------------- <br><br>${user.message}`
+                      });
+                    }
+                  });
+                  res.send('success');
+                })
+                .catch(err => res.status(500).json({message: 'something went wrong'}));
+              } // end community
+            })
+            .catch(err => res.status(500).json({message: 'something went wrong'}));
+            // send email to user
+            sendEmail({
+              from: '"Friend-Alert" <friend.alert.app@gmail.com>',
+              to: user.email,
+              subject: `Friend-Alert Alarm Sent`,
+              html: `Dear ${user.name}<br><br>Your alarm time is up and alerts have been sent out. ` +
+              `Alerts will be send every hour until the alarm is turned off either by you or your contacts/community members.<br><br>` +
+              `click <a href="https://friend-alert.herokuapp.com/user/time/${user.email}">here</a> to turn off the alarm.<br><br>` +
+              `-------------------------- Your message ------------------------ <br><br>${user.message}`
+            });
+          } // end production mode
         } // end if(currentTime === alarmTime)
       }); // end users.forEach((user))
     })

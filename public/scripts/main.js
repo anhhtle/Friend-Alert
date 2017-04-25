@@ -211,7 +211,6 @@ function renderContacts(){
                 `<div class="contact-card">
                     <h2>${contact.name}</h2>
                     <h3>${contact.email}</h3>
-                    <h5>${verified}</h5>
                     <button id="${i}" class="contact-delete" disabled>Delete</button>
                 </div>`
             );
@@ -280,9 +279,7 @@ $('#account-delete').on('click', (event) => {
 //********************* Demo Mode ******************************
 function demoMode(){
     if(localStorage.email === 'friend.alert.demo@gmail.com'){
-        $('.contact-container h2').html(`Manage your contacts<p class="demo">(Disabled for demo mode)</p>`);
-        $('.contact-input').prop('disabled', true);
-        $('.contact-button').prop('disabled', true);
+        $('.contact-container h3').html(`A verification email will be sent to new contact<p class="demo">(Disabled verification for demo mode)</p>`);
         $('.account-container h2').html(`Manage your account<p class="demo">(Disabled for demo mode)</p>`);
         $('.account-input').prop('disabled', true);
         $('.account-button').prop('disabled', true);
