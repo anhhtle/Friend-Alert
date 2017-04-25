@@ -69,12 +69,13 @@ const job = new cronJob('*/1 * * * *', () => {
             // delete DEMO contacts, set timer to 0.
             const query = {
               contacts: [],
+              message: '',
               alarmTime: 0,
               alertOn: false
             };
 
             User
-            .findOneAndUpdate({email: user.email}, {$set: {'contacts': []}}, {new: true})
+            .findOneAndUpdate({email: user.email}, {$set: query}, {new: true})
             .exec()
             .then(() => {
               res.send('success');

@@ -15,11 +15,11 @@ body {
 main {
     margin: 0 auto;
     text-align: center;
-    color: #b56d69;
+    color: #1B1B1E;
 }
 
 button {
-    background-color: #F1DABF;
+    background-color: #A9BCD0;
     color: #000500;
 }
 
@@ -32,7 +32,7 @@ header {
     margin-bottom: 50px;
     display: flex;
     align-items: flex-end;
-    background-color: #c39b8a;
+    background-color: #58A4B0;
 }
 
 .navigation-container{
@@ -62,7 +62,8 @@ li {
 }
 
 li:hover:not(.active) {
-    background-color: #92817A;
+    background-color: #A9BCD0;
+    color: #F7F3E3;
     cursor: pointer;
 }
 
@@ -79,7 +80,7 @@ li:hover:not(.active) {
     font-weight: bold;
     margin-bottom: 20px;
     font-family: 'Varela Round','Playfair Display SC', serif;
-    color: #000500;
+    color: black;
 }
 
 .logo img {
@@ -98,11 +99,11 @@ li:hover:not(.active) {
     width: 150px;
     padding: 10px;
     margin-bottom: 20px;
-    background-color: #c39b8a;
+    background-color: #373F51;
 }
 
 .clock-text{
-    color: #000500;
+    color: #FFFFFF;
 }
 
 .alarm-container h2{
@@ -120,15 +121,14 @@ input[type='number'] {
     font-size: 30pt;
     border: none;
     text-align: center;
-    background-color: #F1DABF;
-    color: #1D201F;
+    background-color: #A9BCD0;
+    color: #1B1B1E;
 }
 
 textarea {
     padding: 10px;
     margin-bottom: 20px;
-    background-color: #F1DABF;
-    color: #1D201F;
+    background-color: #A9BCD0;
 }
 
 .button {
@@ -178,7 +178,7 @@ textarea {
     margin-top: 20px;
     width: 180px;
     height: 40px;
-    background-color: #F1DABF;
+    background-color: #A9BCD0;
     color: #000500;
 }
 
@@ -192,7 +192,7 @@ textarea {
     margin: 0 auto 30px;
     min-width: 30%;
     padding: 10px;
-    background-color: #c39b8a;
+    background-color: #373F51;
     color: #FFFFFF;
 }
 
@@ -242,6 +242,7 @@ label {
 
 .community-container input {
     display: block;
+    color: #A5243D;
     width: 20px;
     margin: 0 10px;
 }
@@ -251,8 +252,8 @@ label {
     margin: 30px auto;
     width: 180px;
     height: 40px;
-    background-color: #F1DABF;
-    color: #000500;
+    background-color: #A9BCD0;
+    color: #39393A;
 }
 
 #account-delete {
@@ -263,7 +264,7 @@ label {
 /*********************** demo *****************************/
 .demo{
     font-family: 'Merriweather', serif;
-    color: #362417;
+    color: #A5243D;
     margin: 7px 0 0 0;
     font-size: 12pt;
 }
@@ -277,6 +278,5 @@ label {
 
 .active {
     background-color: #FFFFFF;
-    color: #b56d69;
+    color: #39393A;
 }
-

@@ -11,7 +11,7 @@ body {
     background-color: #FFFFFF;
     text-align: center;
     font-family: 'Merriweather', serif;
-    color: #b56d69;
+    color: #373F51;
 }
 
 /***************** header **************************/
@@ -19,7 +19,7 @@ header {
     display: flex;
     width: 100%;
     height: 75px;
-    background-color: #c39b8a;
+    background-color: #58A4B0;
 }
 
 /****** logo ********/
@@ -40,7 +40,6 @@ header {
 
 a {
     text-decoration: none;
-    color: #1D201F;
 }
 
 

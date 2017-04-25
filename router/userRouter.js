@@ -150,25 +150,27 @@ router.put('/:email', (req, res) => {
   let updateUser = getUpdateData(req);
   // If adding new contact, send sign-up email to contact
   if(req.body.contacts){
-    User
-    .findOne({'email': req.params.email})
-    .exec()
-    .then((user) => {
-      if(req.body.contacts.length > user.contacts.length){
-        let newContact = req.body.contacts[req.body.contacts.length - 1];
-        sendEmail({
-          from: '"Friend-Alert" <friend.alert.app@gmail.com>',
-          to: newContact.email,
-          subject: `Friend-Alert contact verification from ${user.name}`,
-          html: `Dear ${newContact.name},<br><br>${user.name} ` +
-          `signed you up as an emergency contact on Friend-Alert. ` +
-          `As an emergency contact, you will be alerted by email when ` +
-          `${user.name} is late for his/her user set alarm.<br><br>` +
-          `If you agree to be a Friend-Alert emergency contact, click ` +
-          `<a href="https://friend-alert.herokuapp.com/user/${req.params.email}/${newContact.email}" target="_blank">here</a>.`
-        });
-      }
-    }); // end then
+    if(req.params.email !== 'friend.alert.demo@gmail.com'){
+      User
+      .findOne({'email': req.params.email})
+      .exec()
+      .then((user) => {
+        if(req.body.contacts.length > user.contacts.length){
+          let newContact = req.body.contacts[req.body.contacts.length - 1];
+          sendEmail({
+            from: '"Friend-Alert" <friend.alert.app@gmail.com>',
+            to: newContact.email,
+            subject: `Friend-Alert contact verification from ${user.name}`,
+            html: `Dear ${newContact.name},<br><br>${user.name} ` +
+            `signed you up as an emergency contact on Friend-Alert. ` +
+            `As an emergency contact, you will be alerted by email when ` +
+            `${user.name} is late for his/her user set alarm.<br><br>` +
+            `If you agree to be a Friend-Alert emergency contact, click ` +
+            `<a href="https://friend-alert.herokuapp.com/user/${req.params.email}/${newContact.email}" target="_blank">here</a>.`
+          });
+        }
+      }); // end then
+    }
   } // end sending email to new contact
 
   User

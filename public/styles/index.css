@@ -8,7 +8,7 @@ html {
 
 body {
     height: 100%;
-    background-color: #F1DABF;
+    background-color: #A9BCD0;
     font-family: 'Merriweather', serif;
     font-weight: bold;
 }
@@ -24,7 +24,7 @@ body {
     text-align: center;
     font-size: 40px;
     font-family: 'Varela Round','Playfair Display SC', serif;
-    color: #000500;
+    color: #1B1B1E;
 }
 
 .logo img{
@@ -76,7 +76,7 @@ body {
 
 .friend{
     font-family: 'Varela Round','Playfair Display SC', serif;
-    color: #362417;
+    color: #1B1B1E;
 }
 
 .sign-in-container {
@@ -133,7 +133,7 @@ button {
     position: absolute;
     width: 45%;
     top: 30px;
-    box-shadow: 5px 5px 5px #999999;
+    box-shadow: 3px 3px 3px black;
 }
 
 .two-text {
@@ -143,12 +143,12 @@ button {
     right: 0;
     width: 50%;
     margin-left: 20px;
-    color: #362417;
-    font-size: 32pt;   
+    color: #373F51;
+    font-size: 32pt;
 }
 
 .friend2 {
-    color:#2d91ff;
+    color: #A5243D;
     font-family:'Varela Round', serif;
 }
 
@@ -168,11 +168,11 @@ button {
     text-align: center;
     margin-top: 70px;
     font-size: 30pt;
-    color: #92817A;
+    color: #58A4B0;
 }
 
 .friend3 {
-    color: #ef9328;
+    color: #FE5D26;
     font-family:'Varela Round', serif;
 }
 
@@ -188,7 +188,7 @@ button {
 }
 
 .separator {
-    background-color: #ef9328;
+    background-color: #FE5D26;
     width: 5px;
     height: 60px;
     margin: 0 18px 0 15px;
@@ -198,7 +198,7 @@ button {
     display: flex;
     align-items: center;
     font-size: 25pt;
-    background-color: #362417;
+    background-color: #373F51;
     color: white;
     border-radius: 5px;
     padding: 5px 7px 5px 7px;

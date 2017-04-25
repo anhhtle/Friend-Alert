@@ -131,6 +131,9 @@ $('#alarm-on-button').on('click', function(event) {
             $('#contact-container').addClass('active');
             $('.alarm-container').addClass('hidden');
             $('.contact-container').removeClass('hidden');
+            if(localStorage.email = 'friend.alert.demo@gmail.com'){
+                return alert(`Demo mode: add at least one emergency contact in the 'Contacts' tab before setting alarm. Contacts will be automatically deleted after timer expires.`)
+            }
             return alert(`You do not have any verified emergency contacts; at least one contact is required to send alerts. You can add and manage your contacts in the "Contacts" tab.`);
         }
     }
