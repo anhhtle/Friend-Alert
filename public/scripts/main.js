@@ -119,6 +119,17 @@ $('#alarm-on-button').on('click', function(event) {
         return alert('enter hour and/or min');
     if(hour < 0 || min < 0)
         return alert('enter positive numbers');
+
+    // DEMO mode
+    if(localStorage.email = 'friend.alert.demo@gmail.com' && STATE.contacts.length === 0){
+        $('#alarm-container').removeClass('active');
+        $('#contact-container').addClass('active');
+        $('.alarm-container').addClass('hidden');
+        $('.contact-container').removeClass('hidden');
+        return alert(`Demo mode: add at least one emergency contact in the 'Contacts' tab before setting alarm. Contacts will be automatically deleted after timer expires.`)
+    }
+
+    // Main mode
     if(STATE.community === false){
         let haveVerified = false;
         STATE.contacts.forEach((contact) => {
@@ -131,9 +142,6 @@ $('#alarm-on-button').on('click', function(event) {
             $('#contact-container').addClass('active');
             $('.alarm-container').addClass('hidden');
             $('.contact-container').removeClass('hidden');
-            if(localStorage.email = 'friend.alert.demo@gmail.com'){
-                return alert(`Demo mode: add at least one emergency contact in the 'Contacts' tab before setting alarm. Contacts will be automatically deleted after timer expires.`)
-            }
             return alert(`You do not have any verified emergency contacts; at least one contact is required to send alerts. You can add and manage your contacts in the "Contacts" tab.`);
         }
     }
