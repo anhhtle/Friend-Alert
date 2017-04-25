@@ -211,7 +211,7 @@ function renderContacts(){
                 `<div class="contact-card">
                     <h2>${contact.name}</h2>
                     <h3>${contact.email}</h3>
-                    <button id="${i}" class="contact-delete" disabled>Delete</button>
+                    <button id="${i}" class="contact-delete">Delete</button>
                 </div>`
             );
         }

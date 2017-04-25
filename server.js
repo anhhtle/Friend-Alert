@@ -66,7 +66,13 @@ const job = new cronJob('*/1 * * * *', () => {
               });
               console.log(`send DEMO email to ${contact.email}`);
             });
-            // delete DEMO contacts
+            // delete DEMO contacts, set timer to 0.
+            const query = {
+              contacts: [],
+              alarmTime: 0,
+              alertOn: false
+            };
+
             User
             .findOneAndUpdate({email: user.email}, {$set: {'contacts': []}}, {new: true})
             .exec()
