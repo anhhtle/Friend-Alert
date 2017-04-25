@@ -41,7 +41,6 @@ app.get('*', (req, res) => {
 const job = new cronJob('*/1 * * * *', () => {
   let currentTime = Date.parse(new Date());
   currentTime = Math.floor(currentTime / 1000 / 60);
-  console.log(`now: ${currentTime}`);
 
   User
     .find({'alertOn': true})

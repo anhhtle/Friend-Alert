@@ -83,8 +83,6 @@ function renderAlarm(){
     let hour = Math.floor(time / 60);
     let min = time % 60;
 
-    console.log(time);
-
     if(time < 0){
         hour = 0;
         min = 0;
@@ -121,7 +119,7 @@ $('#alarm-on-button').on('click', function(event) {
         return alert('enter positive numbers');
 
     // check contact for DEMO mode
-    if(STATE.email = 'friend.alert.demo@gmail.com') {
+    if(localStorage.email === 'friend.alert.demo@gmail.com') {
         if(STATE.contacts.length === 0){
             $('#alarm-container').removeClass('active');
             $('#contact-container').addClass('active');
@@ -132,7 +130,7 @@ $('#alarm-on-button').on('click', function(event) {
     }
 
     // check for verified contact for MAIN mode
-    else {
+    if(localStorage.email !== 'friend.alert.demo@gmail.com') {
         if(STATE.community === false){
             let haveVerified = false;
             STATE.contacts.forEach((contact) => {
