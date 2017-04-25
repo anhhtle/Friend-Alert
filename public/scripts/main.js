@@ -125,12 +125,12 @@ $('#alarm-on-button').on('click', function(event) {
             $('#contact-container').addClass('active');
             $('.alarm-container').addClass('hidden');
             $('.contact-container').removeClass('hidden');
-            return alert(`Demo mode: add at least one emergency contact in the 'Contacts' tab before setting alarm. Contacts will be automatically deleted after timer expires.`);
+            return alert(`Demo mode: add at least one emergency contact in the 'Contacts' tab before setting alarm.`);
         }
     }
 
     // check for verified contact for MAIN mode
-    if(localStorage.email !== 'friend.alert.demo@gmail.com') {
+    else {
         if(STATE.community === false){
             let haveVerified = false;
             STATE.contacts.forEach((contact) => {
@@ -294,6 +294,7 @@ $('#account-delete').on('click', (event) => {
 //********************* Demo Mode ******************************
 function demoMode(){
     if(localStorage.email === 'friend.alert.demo@gmail.com'){
+        $('.alarm-container > h3').html(`Your contacts will be notified when timer expires<p class="demo">(Contacts will then be auto deleted for demo mode)</p>`);
         $('.contact-container h3').html(`A verification email will be sent to new contact<p class="demo">(Disabled verification for demo mode)</p>`);
         $('.account-container h2').html(`Manage your account<p class="demo">(Disabled for demo mode)</p>`);
         $('.account-input').prop('disabled', true);
