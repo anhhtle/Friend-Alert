@@ -120,30 +120,33 @@ $('#alarm-on-button').on('click', function(event) {
     if(hour < 0 || min < 0)
         return alert('enter positive numbers');
 
-    // DEMO mode
-    if(STATE.email = 'friend.alert.demo@gmail.com' && STATE.contacts.length === 0){
-        $('#alarm-container').removeClass('active');
-        $('#contact-container').addClass('active');
-        $('.alarm-container').addClass('hidden');
-        $('.contact-container').removeClass('hidden');
-        return alert(`Demo mode: add at least one emergency contact in the 'Contacts' tab before setting alarm. Contacts will be automatically deleted after timer expires.`)
-    }
-
-    // Main mode
-    // check for verified contact
-    if(STATE.community === false){
-        let haveVerified = false;
-        STATE.contacts.forEach((contact) => {
-            if(contact.verified === true){
-                haveVerified = true;
-            }
-        });
-        if(!haveVerified){
+    // check contact for DEMO mode
+    if(STATE.email = 'friend.alert.demo@gmail.com') {
+        if(STATE.contacts.length === 0){
             $('#alarm-container').removeClass('active');
             $('#contact-container').addClass('active');
             $('.alarm-container').addClass('hidden');
             $('.contact-container').removeClass('hidden');
-            return alert(`You do not have any verified emergency contacts; at least one contact is required to send alerts. You can add and manage your contacts in the "Contacts" tab.`);
+            return alert(`Demo mode: add at least one emergency contact in the 'Contacts' tab before setting alarm. Contacts will be automatically deleted after timer expires.`);
+        }
+    }
+
+    // check for verified contact for MAIN mode
+    else {
+        if(STATE.community === false){
+            let haveVerified = false;
+            STATE.contacts.forEach((contact) => {
+                if(contact.verified === true){
+                    haveVerified = true;
+                }
+            });
+            if(!haveVerified){
+                $('#alarm-container').removeClass('active');
+                $('#contact-container').addClass('active');
+                $('.alarm-container').addClass('hidden');
+                $('.contact-container').removeClass('hidden');
+                return alert(`You do not have any verified emergency contacts; at least one contact is required to send alerts. You can add and manage your contacts in the "Contacts" tab.`);
+            }
         }
     }
 
