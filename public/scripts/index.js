@@ -36,6 +36,7 @@ function postAJAX(){
             return window.location.href = 'main.html';
         },
         error: function(err){
+            $('.create-account-button').prop('disabled', false);
             $('.sign-in-message').removeClass('hidden');
             $('.sign-in-message').text('Email already registered');
         }
