@@ -275,7 +275,7 @@ $('#account-submit').on('click', (event) => {
     //check email input is in right format
     const emailExp = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     if(!emailExp.test($('#account-password').val())){
-        $('#account-password').val(STATE.email);
+        renderAccount();
         return alert('Enter valid email')
     }
     // update
