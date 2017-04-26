@@ -101,7 +101,7 @@ $('.sign-in-button').on('click', (event) => {
 
 //********** Create new user
 
-$('.create-account-button').on('click', (event) => {
+$('.create-account-button').on('click', function(event) {
     event.preventDefault();
     if($('.name').val() === ''){
         $('.sign-in-message').text('Missing name');
@@ -112,6 +112,7 @@ $('.create-account-button').on('click', (event) => {
         STATE.userEmail = $('.email').val();
         STATE.userPassword = $('.password').val();
         STATE.userName = $('.name').val();
+        $(this).prop('disabled', true);
         postAJAX();
         //post AJAX will auto navigate to main page
     }
