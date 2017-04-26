@@ -57,7 +57,7 @@ function validateInput(){
         return false;
     }
     // check email input is in correct pattern
-    let emailExp = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    const emailExp = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     if(!emailExp.test($('.email').val())){
         signInMessage.text('Enter valid email');
         signInMessage.removeClass('hidden');

@@ -20,7 +20,7 @@ main {
 
 button {
     background-color: #A9BCD0;
-    color: #000500;
+    color: #1B1B1E;
 }
 
 /******************** Navigation *******************/
@@ -80,7 +80,7 @@ li:hover:not(.active) {
     font-weight: bold;
     margin-bottom: 20px;
     font-family: 'Varela Round','Playfair Display SC', serif;
-    color: black;
+    color: #1B1B1E;
 }
 
 .logo img {
@@ -129,6 +129,7 @@ textarea {
     padding: 10px;
     margin-bottom: 20px;
     background-color: #A9BCD0;
+    color: #1B1B1E;
 }
 
 .button {
@@ -179,7 +180,7 @@ textarea {
     width: 180px;
     height: 40px;
     background-color: #A9BCD0;
-    color: #000500;
+    color: #1B1B1E;
 }
 
 .contacts-results {
@@ -253,7 +254,7 @@ label {
     width: 180px;
     height: 40px;
     background-color: #A9BCD0;
-    color: #39393A;
+    color: #1B1B1E;
 }
 
 #account-delete {

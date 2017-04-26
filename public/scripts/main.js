@@ -272,7 +272,14 @@ $('#account-reset').on('click', (event) => {
 // save button
 $('#account-submit').on('click', (event) => {
     event.preventDefault();
-    let url = `https://friend-alert.herokuapp.com/user/${localStorage.email}`
+    //check email input is in right format
+    const emailExp = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if(!emailExp.test($('#account-password').val())){
+        $('#account-password').val(STATE.email);
+        return alert('Enter valid email')
+    }
+    // update
+    let url = `https://friend-alert.herokuapp.com/user/${localStorage.email}`;
     if(STATE.password != $('#account-password').val())
         STATE.password = $('#account-password').val();
     STATE.email = $('#account-email').val();
