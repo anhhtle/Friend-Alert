@@ -274,10 +274,11 @@ $('#account-submit').on('click', (event) => {
     event.preventDefault();
     //check email input is in right format
     const emailExp = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if(!emailExp.test($('#account-password').val())){
+    if(!emailExp.test($('#account-email').val())){
         renderAccount();
         return alert('Enter valid email')
     }
+
     // update
     let url = `https://friend-alert.herokuapp.com/user/${localStorage.email}`;
     if(STATE.password != $('#account-password').val())

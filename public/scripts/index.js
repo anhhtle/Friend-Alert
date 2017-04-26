@@ -31,6 +31,10 @@ function postAJAX(){
         type: 'POST',
         contentType: 'application/json',
         dataType: 'json',
+        success: function(){
+            localStorage.setItem('email', STATE.userEmail);
+            return window.location.href = 'main.html';
+        },
         error: function(err){
             $('.sign-in-message').removeClass('hidden');
             $('.sign-in-message').text('Email already registered');
@@ -109,8 +113,7 @@ $('.create-account-button').on('click', (event) => {
         STATE.userPassword = $('.password').val();
         STATE.userName = $('.name').val();
         postAJAX();
-        reset();
-        $('.signIn').addClass('hidden');
+        //post AJAX will auto navigate to main page
     }
 });
 
