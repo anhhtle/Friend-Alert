@@ -8,7 +8,7 @@ html {
 
 body {
     height: 100%;
-    background-color: #58A4B0;
+    background-color: #373F51;
     font-family: 'Merriweather', serif;
     font-weight: bold;
 }
@@ -108,7 +108,7 @@ body {
 }
 
 button {
-    background-color: #2d91ff/*rgb(0, 161, 244)*/;
+    background-color: #4392F1;
     border-radius: 5px;
     border-style: none;
     margin-bottom: 13px;
@@ -117,7 +117,7 @@ button {
 .toggle {
     width: 150px;
     margin: 0 auto 13px;
-    color: #2d91ff/*rgb(0, 161, 244)*/;
+    color: #4392F1;
     cursor: pointer;
 }
 
@@ -143,12 +143,12 @@ button {
     right: 0;
     width: 50%;
     margin-left: 20px;
-    color: #1B1B1E;
+    color: #FFF;
     font-size: 32pt;
 }
 
 .friend2 {
-    color: #A5243D;
+    color: #4392F1;
     font-family:'Varela Round', serif;
 }
 
@@ -160,7 +160,7 @@ button {
 .three {
     height: 430px;
     overflow: hidden;
-    background-color: #FFFFFF;
+    background-color: #FFF;
     clip-path: polygon(100% 100%, 100% 0%, 0% 10%, 0 100%);
 }
 
