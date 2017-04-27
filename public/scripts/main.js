@@ -39,6 +39,7 @@ function getAJAX(){
         success: function(data){
             STATE = data[0];
             renderAlarm();
+            renderContacts();
         },
         error: function(err){
             console.error(err);

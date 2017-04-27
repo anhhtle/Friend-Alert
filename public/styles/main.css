@@ -74,6 +74,7 @@ li:hover:not(.active) {
 /********************** logo **************************/
 .logo {
     display: flex;
+    width: 200px;
     align-items: center;
     text-align: center;
     font-size: 25px;
