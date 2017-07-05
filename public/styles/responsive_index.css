@@ -93,7 +93,7 @@
                 to bottom,
                 rgba(0, 0, 0, 0.25),
                 rgba(0, 0, 0, 0.80)
-            ), url('../images/header.jpeg');
+            ), url('../images/header.jpg');
         background-size: cover;
         background-attachment: fixed;
     }
